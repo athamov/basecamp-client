@@ -8,18 +8,18 @@ export default class MemberService {
   }
 
   static async fetchMembers(project_id:string): Promise<AxiosResponse<IMember[]>> {
-    return $api.get<IMember[]>(`/project${project_id}/members`);
+    return $api.get<IMember[]>(`/project/${project_id}/member`);
   }
 
   static getMember(project_id:string,membe_id:string): Promise<AxiosResponse<IMember>> {
-    return $api.get<IMember>(`/project/:${project_id}/member/:${membe_id}`);
+    return $api.get<IMember>(`/project/${project_id}/member/:${membe_id}`);
+  } 
+
+  static updateMember(project_id: string,member_id: string,role:role,request:request): Promise<AxiosResponse<IMember>> {
+    return $api.put(`/project/:${project_id}/member/${member_id}`, {role:role,request:request});
   }
 
-  static updateMember(project_id: string,membe_id: string,role:role,request:request): Promise<AxiosResponse<IMember>> {
-    return $api.put(`/project/:${project_id}/member/:${membe_id}`, {role:role,request:request});
-  }
-
-  static deleteMember(project_id:string,membe_id:string):any {
-    return $api.delete(`/project/:${project_id}/member/:${membe_id}`);  
+  static deleteMember(project_id:string,member_id:string):any {
+    return $api.delete(`/project/:${project_id}/member/${member_id}`);  
   }
 }

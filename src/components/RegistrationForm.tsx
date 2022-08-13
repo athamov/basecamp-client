@@ -1,44 +1,61 @@
 import React, {FC, useContext, useState} from 'react';
-import {Context} from "../index";
+import { StoreContext } from '../context/store-context';
+import {Link,useNavigate} from 'react-router-dom';
 import {observer} from "mobx-react-lite";
 import LoginImage from "./login.png"
 
 const RegistrationForm: FC = () => {
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const [name, setName] = useState<string>('')
-    const {store} = useContext(Context);
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [name, setName] = useState<string>('');
+    const [error, setError] = useState<string>('');
+    const store = useContext(StoreContext);
+    const navigate = useNavigate();
+
+    const handleClick = (event:any) => {
+      event.preventDefault();
+      let isRegistered = store.userStore.registration(email, password,name);
+      isRegistered.then((e) => {
+          alert(e)
+          if(e==='registered successfully') navigate('/user');
+        }).catch((e) => {
+          alert(e)
+          setError(e);
+        })
+    }
 
     return (
         <section className="h-screen">
             <div className="px-6 h-full text-gray-800">
-                <div
-                className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
-                >
-                <div
-                    className="grow-0 shrink-1 md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 mb-12 md:mb-0"
-                >
-                    <img
-                    src={LoginImage}
-                    className="w-full"
-                    alt="Sample"
-                    />
-                </div>
-                <div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
-                    <form>
+              <div
+              className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
+              >
+              <div
+                  className="grow-0 shrink-1 md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 mb-12 md:mb-0"
+              >
+                  <img
+                  src={LoginImage}
+                  className="w-full"
+                  alt="Sample"
+                  />
+              </div>
+              <div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
+                {error &&<div className="w-full bg-red">error</div>}
+                <form>
+
           {/* <!-- Email input --> */}
           <div className="mb-6">
             <input
               type="text"
               className="form-control CustomInput"
-              id="exampleFormControlInput2"
+              id="exampleFormControlInput1"
               placeholder="Email address"
               onChange={e => setEmail(e.target.value)}
               value={email}
             />
           </div>
 
-          {/* <!-- Email input --> */}
+          {/* <!-- Name input --> */}
           <div className="mb-6">
             <input
               type="text"
@@ -55,45 +72,27 @@ const RegistrationForm: FC = () => {
             <input
               type="password"
               className="form-control CustomInput"
-              id="exampleFormControlInput2"
+              id="exampleFormControlInput3"
               placeholder="Password"
               onChange={e => setPassword(e.target.value)}
               value={password}
             />
           </div>
-
-          <div className="flex justify-between items-center mb-6">
-            <div className="form-group form-check">
-              <input
-                type="checkbox"
-                className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                id="exampleCheck2"
-              />
-              <label className="form-check-label inline-block text-gray-800" htmlFor="exampleCheck2"
-                >Remember me</label
-              >
-            </div>
-            <a href="#!" className="text-gray-800">Forgot password?</a>
-          </div>
-
           <div className="text-center lg:text-left">
+          <p className="text-sm font-semibold mt-2 pt-1 mb-0">
+              have an account?
+              <Link
+                to='/login'
+                className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
+                >Login</Link>
+            </p>
             <button
               type="button"
-              className="inline-block CustomButton"
-              onClick={() => store.userStore.registration(email, password,name)}
+              className="inline-block CustomButton Blue"
+              onClick={handleClick}
             >
               Register
             </button>
-            <button 
-              //onClick={() => store.registration(email, password)}
-            ></button>
-            <p className="text-sm font-semibold mt-2 pt-1 mb-0">
-              have an account?
-              <a
-                href="/Login"
-                className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
-                >Login</a>
-            </p>
           </div>
         </form>
       </div>

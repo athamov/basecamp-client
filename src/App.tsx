@@ -1,37 +1,34 @@
-import React, { FC, useContext, useEffect } from 'react';
+import React, { FC, useContext, useEffect,lazy,Suspense } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { Context } from "./index";
+// import {StoreContext} from './context/store-context'
 import { observer } from "mobx-react-lite";
-import Dashboard from './components/Dashboard'
-import LoginForm from "./components/LoginForm";
-import RegistrationForm from "./components/RegistrationForm"
-import UserUpdateForm from "./components/UserUpdateForm"
-import Navbar from "./components/Navbar"
-
-import '../src/style.css';
+import NoRoute from './components/NoRoute'
+import Loader from './components/Loader'
+const Dashboard = lazy(() => import('./components/Dashboard'));
+const LoginForm = lazy(() => import('./components/LoginForm'));
+const RegistrationForm = lazy(() => import('./components/RegistrationForm'));
+const UserUpdateForm = lazy(() => import('./components/UserUpdateForm'));
+const ProjectAdd = lazy(() => import('./components/ProjectAdd'));
+const Project = lazy(() => import('./components/Project'));
 
 const App: FC = () => {
-    const {store} = useContext(Context);
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            store.userStore.checkAuth()
-        }
-    },[store]);
-
-    if (store.userStore.isLoading) {
-        return <div>Загрузка...</div>
-    }
+    // const store = useContext(StoreContext);
+    
     return (
         <>
-        {store.userStore.isAuth?<Navbar />:""}
+        <Suspense fallback={<Loader />}>
         <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" />}/>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/logout" element={<LoginForm />} />
+            <Route path="/" element={<Navigate to="/user" />}/>
+            <Route path="/user/*" element={<Dashboard />} >
+                <Route path="update" element={<UserUpdateForm />} />
+                <Route path='addProject' element={<ProjectAdd/>} />
+                <Route path=':id' element={<Project/>} />
+            </Route>
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegistrationForm />} />
-            <Route path="/user/update" element={<UserUpdateForm />} />
+            <Route path="*" element={<NoRoute />}/>
         </Routes>
+        </Suspense>
         </>
     );
 };

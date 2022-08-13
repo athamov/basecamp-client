@@ -1,14 +1,34 @@
-import React, {FC, useContext, useState} from 'react';
-import { Link } from 'react-router-dom'
-import {Context} from "../index";
-import {observer} from "mobx-react-lite";
+import React, {FC, useContext, useState,useEffect} from 'react';
+import { observer } from "mobx-react-lite";
+import { StoreContext } from '../context/store-context';
+import {Link,useNavigate} from 'react-router-dom';
 import LoginImage from "./login.png"
 
 const LoginForm: FC = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
-    const {store} = useContext(Context);
+    const [error, setError] = useState('')
+    const store = useContext(StoreContext);
+    let navigate = useNavigate();
+    useEffect(() => {
+      let isAuth = store.userStore.user;
+      console.log(isAuth.id);
+      if (isAuth.id) {
+        navigate('/user');
+      }
+    })
 
+    const handleClick = (event:any) =>{
+      event.preventDefault();
+      let isLogin = store.userStore.login(email, password);
+      isLogin.then((e) => {
+        alert(e)
+        if(e==='logged in successfully') navigate('/user');
+      }).catch((e) => {
+        alert(e)
+        setError(e);
+      })
+    }
     return (
         <section className="h-screen">
             <div className="px-6 h-full text-gray-800">
@@ -25,6 +45,7 @@ const LoginForm: FC = () => {
                     />
                 </div>
                 <div className="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
+                  {error && <div className="w-full bg-red">{error}</div>}
                     <form>
           {/* <!-- Email input --> */}
           <div className="mb-6">
@@ -49,39 +70,20 @@ const LoginForm: FC = () => {
               value={password}
             />
           </div>
-
-          <div className="flex justify-between items-center mb-6">
-            <div className="form-group form-check">
-              <input
-                type="checkbox"
-                className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                id="exampleCheck2"
-              />
-              <label className="form-check-label inline-block text-gray-800" htmlFor="exampleCheck2"
-                >Remember me</label
-              >
-            </div>
-            <a href="#!" className="text-gray-800">Forgot password?</a>
-          </div>
-
           <div className="text-center lg:text-left">
-            <Link
-              to="/"
-              className="inline-block CustomButton"
-              onClick={() => store.userStore.login(email, password)}
-            >
-              Login
-            </Link>
-            <button 
-              //onClick={() => store.registration(email, password)}
-            ></button>
-            <p className="text-sm font-semibold mt-2 pt-1 mb-0">
+          <p className="text-sm font-semibold mt-2 pt-1 mb-0">
               Don't have an account?
               <Link
                 to="/register"
                 className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
                 >Register</Link>
             </p>
+            <button
+              onClick={handleClick}
+              className="inline-block CustomButton Blue"
+            > 
+              Login
+            </button>
           </div>
         </form>
       </div>
@@ -92,5 +94,3 @@ const LoginForm: FC = () => {
 };
 
 export default observer(LoginForm);
-
-

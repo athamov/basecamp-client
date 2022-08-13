@@ -1,8 +1,8 @@
 import {IUser} from './IUser'
 
 export enum role {
-  admim,
-  user
+  'admim',
+  'user'
 }
 export interface request {
   Read:Boolean,

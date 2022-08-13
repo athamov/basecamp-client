@@ -1,5 +1,8 @@
+import { IMember } from './IMember';
+
 export interface IProject {
   project_name: string;
   description: string;
-  id: string;
+  _id: string;
+  members:IMember[];
 };
