@@ -36,10 +36,10 @@ const UserUpdateForm: FC = () => {
     if(!name) {setName(store.userStore.user.name);}
     if(newPassword===confirmPassword) {
       let isUpdated = store.userStore.updateUser(name,email,newPassword,oldPassword)
-      isUpdated.then((e) => {
+      isUpdated.then((e:any) => {
         alert(e)
         if(e==='updated successfully') navigate('/user');
-      }).catch((e) => {
+      }).catch((e:any) => {
         alert(e)
         setError(e);
       })

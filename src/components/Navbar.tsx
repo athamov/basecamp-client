@@ -12,10 +12,10 @@ const Navbar: FC = () => {
   const handleClick = (event:any) => {
     event.preventDefault();
     let isLogout = store.userStore.logout()
-    isLogout.then((e) => {
+    isLogout.then((e:any) => {
       alert(e)
       if(e==='loggged out successfully') navigate('/user');
-    }).catch((e) => {
+    }).catch((e:any) => {
       alert(e)
     })
   }

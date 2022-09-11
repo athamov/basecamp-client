@@ -28,10 +28,10 @@ const ProjectAdd: FC = () => {
   const handleClick = (event:any) => {
     event.preventDefault();
     let created = store.ProjectStore.createProject(name,description)
-    created.then((e) => {
+    created.then((e:any) => {
       alert(e)
       if(e==='created successfully') navigate('/user');
-    }).catch((e) => {
+    }).catch((e:any) => {
       alert(e)
       setError(e);
     })

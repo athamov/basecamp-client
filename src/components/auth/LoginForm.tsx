@@ -20,10 +20,10 @@ const LoginForm: FC = () => {
     const handleClick = (event:any) =>{
       event.preventDefault();
       let isLogin = store.userStore.login(email, password);
-      isLogin.then((e) => {
+      isLogin.then((e:any) => {
         alert(e)
         if(e==='logged in successfully') navigate('/user');
-      }).catch((e) => {
+      }).catch((e:any) => {
         alert(e)
         setError(e);
       })
