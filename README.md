@@ -5,7 +5,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Available Scripts
 
 In the project directory, you can run:
-
+[fontlink](https://fonts.google.com/share?selection.family=Raleway:wght@600)
 ### `npm start`
 
 Runs the app in the development mode.\

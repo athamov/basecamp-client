@@ -8,7 +8,6 @@ import { StoreContext } from '../context/store-context';
 const Navbar: FC = () => {
   const store = useContext(StoreContext);
   const navigate = useNavigate();
-  // let location = useLocation();
     
   const handleClick = (event:any) => {
     event.preventDefault();

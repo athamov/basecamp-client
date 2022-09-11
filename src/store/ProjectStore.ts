@@ -8,7 +8,6 @@ import { IMember,role,request } from "../model/IMember";
 export class ProjectStore {
   root:RootStore;
   project={} as IProject;
-  // members:IMember[];
   constructor(root:RootStore) {
     this.root=root
     makeAutoObservable(this);
@@ -38,8 +37,6 @@ export class ProjectStore {
     this.root.setLoading(true)
     try{
     const response = await ProjectService.fetchProjects();
-    console.log(response)
-    // this.setProject(response.data);
     return response.data;
     }
     catch(e:any) {
@@ -54,7 +51,6 @@ export class ProjectStore {
   async getProject(project_id:string) {
     this.root.setLoading(true)
     try{
-      console.log(project_id)
     const response = await ProjectService.fetchtProject(project_id);
     this.setProject(response.data);
     return response.data;

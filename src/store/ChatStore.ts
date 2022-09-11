@@ -1,28 +1,26 @@
-import {IMember,role,request} from '../model/IMember';
+import { IChat } from '../model/IChat';
 import { makeAutoObservable } from "mobx";
 import { RootStore } from "./store";
-import MemberService from "../service/MemberService";
+import ChatService from "../service/ChatService";
 
-export class MemberStore{
+export class ChatStore{
   root:RootStore;
-  members=[] as IMember[];
+  chats=[] as IChat[];
   constructor(root:RootStore) {
     this.root=root;
     makeAutoObservable(this)
   }
 
-  setMembers(member:IMember) {
-    this.members.push(member);
+  setChats(chat:IChat) {
+    this.chats.push(chat);
   }
 
-  async addMember(project_id:string,email:string,role:role,request:request) {
+  async create(project_id:string,name:string) {
     this.root.setLoading(true)
     try {
-    const response = await MemberService.createMember(project_id,email,role,request);
-    if(response.status < 400) {
-    this.setMembers(response.data);
-    return response.data;
-    }
+    const response = await ChatService.create(project_id,name);
+    this.setChats(response.data);
+    return 'created successfully';
     }
     catch(e:any) {
       console.error(e.response?.data?.message);
@@ -33,26 +31,11 @@ export class MemberStore{
     }
   }
 
-  async fetchMembers(project_id:string) {
+  async fetchAll(project_id:string) {
     this.root.setLoading(true)
     try {
-    const response = await MemberService.fetchMembers(project_id);
-    response.data.forEach(member =>this.setMembers(member))
-    return response.data;
-    }
-    catch(e:any) {
-      console.error(e.response?.data?.message);
-      return e.response?.data?.message;
-    }
-    finally {
-      this.root.setLoading(false);
-    }
-  }
-
-  async getMember(project_id:string,member_id:string) {
-    this.root.setLoading(true)
-    try {
-    const response = await MemberService.getMember(project_id,member_id);
+    const response = await ChatService.fetchAll(project_id);
+    response.data.forEach(chat =>this.setChats(chat))
     return response.data;
     }
     catch(e:any) {
@@ -64,10 +47,11 @@ export class MemberStore{
     }
   }
 
-  async updateMember(project_id: string,member_id: string,role:role,request:request) {
+  async get(project_id:string,chat_id:string) {
     this.root.setLoading(true)
     try {
-    const response = await MemberService.updateMember(project_id,member_id,role,request);
+    const response = await ChatService.get(project_id,chat_id);
+    this.setChats(response.data);
     return response.data;
     }
     catch(e:any) {
@@ -79,10 +63,26 @@ export class MemberStore{
     }
   }
 
-  async deleteMember(project_id: string,member_id: string) {
+  async update(project_id: string,chat_id: string,name:string) {
     this.root.setLoading(true)
     try {
-    const response = await MemberService.deleteMember(project_id,member_id);
+    const response = await ChatService.update(project_id,chat_id,name);
+    return response.data;
+    }
+    catch(e:any) {
+      console.error(e.response?.data?.message);
+      return e.response?.data?.message;
+    }
+    finally {
+      this.root.setLoading(false);
+    }
+  }
+
+  async delete(project_id: string,chat_id: string) {
+    this.root.setLoading(true)
+    try {
+    const response = await ChatService.delete(project_id,chat_id);
+    this.setChats({} as IChat);
     return response.data;
     }
     catch(e:any) {

@@ -1,8 +1,8 @@
 import React, {FC, useState,useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from "mobx-react-lite";
-import {IUser} from "../model/IUser";
-import { StoreContext } from '../context/store-context';
+import {IUser} from "../../model/IUser";
+import { StoreContext } from '../../context/store-context';
 
 const UserUpdateForm: FC = () => {
   const store = useContext(StoreContext);
@@ -16,7 +16,7 @@ const UserUpdateForm: FC = () => {
 
   useEffect(() => {
     setEmail(store.userStore.user.email);
-  },[store])
+  },[store.userStore])
 
   const handleNameChange = (even:any) => {
     setName(even.target.value);
@@ -48,9 +48,6 @@ const UserUpdateForm: FC = () => {
 
   return (
     <div className="constainer w-3/4 min-w-3/4 m-auto mt-20">
-      {/* <input type="text" id="disabled-input" aria-label="disabled input" className="mb-6 bg-gray-100 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500" value="Disabled input" disabled>
-        gradient bla
-      </input> */}
       {error&&
         <div className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800" role="alert">
         <span className="font-medium">Danger alert!</span> Change a few things up and try submitting again.

@@ -1,6 +1,6 @@
 import React, {FC, useContext, useState,useEffect} from 'react';
 import { observer } from "mobx-react-lite";
-import { StoreContext } from '../context/store-context';
+import { StoreContext } from '../../context/store-context';
 import {Link,useNavigate} from 'react-router-dom';
 import LoginImage from "./login.png"
 
@@ -12,7 +12,6 @@ const LoginForm: FC = () => {
     let navigate = useNavigate();
     useEffect(() => {
       let isAuth = store.userStore.user;
-      console.log(isAuth.id);
       if (isAuth.id) {
         navigate('/user');
       }

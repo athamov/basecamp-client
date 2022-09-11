@@ -4,5 +4,4 @@ export interface IProject {
   project_name: string;
   description: string;
   _id: string;
-  members:IMember[];
 };

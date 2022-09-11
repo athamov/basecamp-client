@@ -8,7 +8,7 @@ export default class ProjectService {
   }
 
   static async fetchProjects():Promise<AxiosResponse<IProject[]>> {
-    return $api.get<IProject[]>('/all-project');
+    return $api.get<IProject[]>('/project');
   }
 
   static async fetchtProject(project_id:string):Promise<AxiosResponse<IProject>> {

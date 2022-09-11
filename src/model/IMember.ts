@@ -1,18 +1,18 @@
-import {IUser} from './IUser'
-
 export enum role {
-  'admim',
-  'user'
+  admin='admin',
+  user='user'
 }
 export interface request {
-  Read:Boolean,
-  Update:Boolean,
-  Write:Boolean,
-  Delete:Boolean
+  Read:boolean,
+  Update:boolean,
+  Write:boolean,
+  Delete:boolean
 }
 
 export interface IMember {
-  User:IUser;
+  _id:string,
+  name:string,
+  User:string,
   role: role,
   request:request
 }

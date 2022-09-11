@@ -29,7 +29,6 @@ export class UserStore {
       try {
           const response = await AuthService.login(email, password);
           localStorage.setItem('token', response.data.token.accessToken);
-          console.log(response.data)
           this.root.setAuth(true);
           this.setUser(response.data.user);
           return 'logged in successfully'
@@ -64,7 +63,6 @@ export class UserStore {
       try {
           await AuthService.logout();
           localStorage.removeItem('token');
-          console.log(localStorage)
           this.root.setAuth(false);
           this.setUser({} as IUser);
           return 'loggged out successfully';
@@ -81,7 +79,6 @@ export class UserStore {
       this.root.setLoading(true)
       try {
           const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
-          console.log(response);
           localStorage.setItem('token', response.data.token.accessToken);
           this.root.setAuth(true);
           this.setUser(response.data.user);
@@ -97,9 +94,7 @@ export class UserStore {
   async updateUser(name: string,email: string,newPassword: string, oldPassword:string) {
       this.root.setLoading(true);
       try {
-          console.log(name,email,newPassword,oldPassword);
           const response = await UserService.updateUser(name, email, newPassword, oldPassword);
-          console.log(response)
           this.setUser(response.data);
           return 'updated successfully'
       } catch (e:any) {

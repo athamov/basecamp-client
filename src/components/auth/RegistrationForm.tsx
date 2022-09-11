@@ -1,5 +1,5 @@
 import React, {FC, useContext, useState} from 'react';
-import { StoreContext } from '../context/store-context';
+import { StoreContext } from '../../context/store-context';
 import {Link,useNavigate} from 'react-router-dom';
 import {observer} from "mobx-react-lite";
 import LoginImage from "./login.png"

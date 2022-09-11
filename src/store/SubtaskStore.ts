@@ -1,43 +1,25 @@
-import {IMember,role,request} from '../model/IMember';
+import { ISubtask } from '../model/ISubtask';
 import { makeAutoObservable } from "mobx";
 import { RootStore } from "./store";
-import MemberService from "../service/MemberService";
+import Subtask from "../service/SubtaskService";
 
-export class MemberStore{
+export class SubtaskStore{
   root:RootStore;
-  members=[] as IMember[];
+  subtask=[] as ISubtask[];
   constructor(root:RootStore) {
     this.root=root;
     makeAutoObservable(this)
   }
 
-  setMembers(member:IMember) {
-    this.members.push(member);
+  setSubtask(task:ISubtask) {
+    this.subtask.push(task);
   }
 
-  async addMember(project_id:string,email:string,role:role,request:request) {
+  async add(project_id:string,task_id:string,subtask:string) {
     this.root.setLoading(true)
     try {
-    const response = await MemberService.createMember(project_id,email,role,request);
-    if(response.status < 400) {
-    this.setMembers(response.data);
-    return response.data;
-    }
-    }
-    catch(e:any) {
-      console.error(e.response?.data?.message);
-      return e.response?.data?.message;
-    }
-    finally {
-      this.root.setLoading(false);
-    }
-  }
-
-  async fetchMembers(project_id:string) {
-    this.root.setLoading(true)
-    try {
-    const response = await MemberService.fetchMembers(project_id);
-    response.data.forEach(member =>this.setMembers(member))
+    const response = await Subtask.create(project_id,task_id,subtask);
+    this.setSubtask(response.data);
     return response.data;
     }
     catch(e:any) {
@@ -49,10 +31,11 @@ export class MemberStore{
     }
   }
 
-  async getMember(project_id:string,member_id:string) {
+  async fetchAll(project_id:string,task_id: string) {
     this.root.setLoading(true)
     try {
-    const response = await MemberService.getMember(project_id,member_id);
+    const response = await Subtask.fetchAll(project_id,task_id);
+    response.data.forEach(subtask =>this.setSubtask(subtask))
     return response.data;
     }
     catch(e:any) {
@@ -64,10 +47,11 @@ export class MemberStore{
     }
   }
 
-  async updateMember(project_id: string,member_id: string,role:role,request:request) {
+  async get(project_id:string,subtask_id:string) {
     this.root.setLoading(true)
     try {
-    const response = await MemberService.updateMember(project_id,member_id,role,request);
+    const response = await Subtask.get(project_id,subtask_id);
+    this.setSubtask(response.data);
     return response.data;
     }
     catch(e:any) {
@@ -79,10 +63,41 @@ export class MemberStore{
     }
   }
 
-  async deleteMember(project_id: string,member_id: string) {
+  async toggleIsDone(project_id:string,task_id: string) {
     this.root.setLoading(true)
     try {
-    const response = await MemberService.deleteMember(project_id,member_id);
+      const response = await Subtask.toggleIsDone(project_id,task_id)
+      return response.data;
+      }
+      catch(e:any) {
+        console.error(e.response?.data?.message);
+        return e.response?.data?.message;
+      }
+      finally {
+        this.root.setLoading(false);
+      }
+  }
+
+  async update(project_id: string,subtask_id: string,subtask:string) {
+    this.root.setLoading(true)
+    try {
+    const response = await Subtask.update(project_id,subtask_id,subtask);
+    return response.data;
+    }
+    catch(e:any) {
+      console.error(e.response?.data?.message);
+      return e.response?.data?.message;
+    }
+    finally {
+      this.root.setLoading(false);
+    }
+  }
+
+  async delete(project_id: string,subtask_id: string) {
+    this.root.setLoading(true)
+    try {
+    const response = await Subtask.delete(project_id,subtask_id);
+    this.setSubtask({} as ISubtask);
     return response.data;
     }
     catch(e:any) {
