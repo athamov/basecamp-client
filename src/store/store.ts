@@ -1,5 +1,5 @@
-import { UserStore } from './UserStore';
-import { ProjectStore } from './ProjectStore';
+import { UserStore } from './UserStore.js';
+import { ProjectStore } from './ProjectStore.js';
 import { MemberStore } from './MemberStore';
 import { TaskStore } from './TaskStore';
 import { SubtaskStore } from './SubtaskStore';
