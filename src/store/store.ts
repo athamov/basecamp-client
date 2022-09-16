@@ -1,4 +1,4 @@
-import { UserStore } from "./UserStore";
+import { userStore } from "./UserStore";
 import { ProjectStore } from './ProjectStore';
 import { MemberStore } from './MemberStore';
 import { TaskStore } from './TaskStore';
@@ -7,7 +7,7 @@ import { ChatStore } from './ChatStore';
 import { MessageStore } from './MessageStore';
 
 export class RootStore {
-    userStore:UserStore;
+    userStore;
     ProjectStore:ProjectStore;
     MemberStore:MemberStore;
     TaskStore:TaskStore;
@@ -18,7 +18,7 @@ export class RootStore {
     isAuth = false;
 
     constructor() {
-        this.userStore = new UserStore(this);
+        this.userStore = userStore;
         this.ProjectStore = new ProjectStore(this);
         this.MemberStore = new MemberStore(this);
         this.TaskStore = new TaskStore(this);

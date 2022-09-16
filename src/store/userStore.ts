@@ -4,12 +4,12 @@ import axios from 'axios';
 import { API_URL } from "../http";
 import {AuthResponse} from "../model/response/AuthResponse";
 import {IUser} from "../model/IUser";
-import {RootStore} from "./store";
+import store,{RootStore} from "./store";
 
 import AuthService from "../service/AuthService";
 import  UserService  from "../service/UserService";
 
-export class UserStore {
+class UserStore {
   root:RootStore
   user = {} as IUser;
 
@@ -105,3 +105,5 @@ export class UserStore {
       } 
   }
 }
+
+export const userStore = new UserStore(store)
