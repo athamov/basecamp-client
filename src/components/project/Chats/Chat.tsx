@@ -1,5 +1,5 @@
 import React, {FC, useState,useEffect, useContext} from 'react';
-import { useNavigate, useParams, Link } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 import {IChat} from "../../../model/IChat";
 import {IMessage} from "../../../model/IMessage";
@@ -17,7 +17,6 @@ const Chat: FC<{chat_id:string}> = ({chat_id}:Iprops) => {
   const [ChatCollapse,setChatCollapse] = useState<boolean>(false);
   const store = useContext(StoreContext);
   const {id} = useParams();
-  const navigate = useNavigate()
 
   useEffect(() => {
     if(id && chat_id) store.ChatStore.get(id, chat_id).then((data:any) =>{
@@ -38,10 +37,6 @@ const Chat: FC<{chat_id:string}> = ({chat_id}:Iprops) => {
         });
       });
     }
-  }
-
-  const getChat = (id:string) => {
-    
   }
 
   const handleChatChange = (even:any) => {

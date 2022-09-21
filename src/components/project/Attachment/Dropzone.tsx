@@ -1,10 +1,6 @@
-import React, {FC, useState,useEffect, useContext} from 'react';
-import { useNavigate, useParams } from 'react-router-dom'
-import {useDropzone} from 'react-dropzone'
+import React, {FC, useState,useEffect} from 'react';
 import Dropzone from "react-dropzone";
 import { observer } from "mobx-react-lite";
-import {ITask} from "../../../model/ITask";
-import { StoreContext } from '../../../context/store-context';
 import UploadService from "./services/upload-files.service";
 
 interface Iprops  {
@@ -25,13 +21,6 @@ const Tasks: FC<{id:string}> = ({id}:Iprops) => {
   const [ selectedFiles,setSelectedFiles] = useState<IFile[]>([])
   const [ message,setMessage] = useState<any>("")
   const [ fileInfos,setFileInfos] = useState<IFile[]>([])
-  const [ tasks,setTasks ] = useState<ITask[]>([])
-  const store = useContext(StoreContext);
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    store.TaskStore.fetchAll(id).then((data:any) =>setTasks(data));
-  },[store.TaskStore,id])
 
   useEffect(()=>{
     if(id) UploadService.getFiles(id).then((response:any) => {

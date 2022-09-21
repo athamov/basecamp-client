@@ -1,14 +1,9 @@
 import React, {FC, useState,useEffect, useContext} from 'react';
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 import {IChat} from "../../../model/IChat";
-import {IMessage} from "../../../model/IMessage";
 import { StoreContext } from '../../../context/store-context';
 import Chat  from './Chat'
-
-interface Iprops  {
-  id:string
-}
 
 const Chats: FC = () => {
   const [ chats,setChats ] = useState<IChat[]>([])
@@ -16,11 +11,11 @@ const Chats: FC = () => {
   const [ChatCollapse,setChatCollapse] = useState<boolean>(false);
   const store = useContext(StoreContext);
   const { id } = useParams()
-  const navigate = useNavigate()
 
   useEffect(() => {
     if(id) getChat(id);
   },[id]);
+  
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id){

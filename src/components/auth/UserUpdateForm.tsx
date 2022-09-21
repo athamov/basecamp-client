@@ -1,7 +1,6 @@
 import React, {FC, useState,useEffect, useContext} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { observer } from "mobx-react-lite";
-import {IUser} from "../../model/IUser";
 import { StoreContext } from '../../context/store-context';
 
 const UserUpdateForm: FC = () => {

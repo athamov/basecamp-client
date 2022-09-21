@@ -1,8 +1,7 @@
-import {FC, useContext, useEffect, useState,lazy,Suspense} from 'react';
+import {FC, useContext, useEffect,lazy,Suspense} from 'react';
 import { observer } from "mobx-react-lite";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { StoreContext } from '../context/store-context';
-import { IUser } from "../model/IUser";
 import Loader from './Loader'
 const UserUpdateForm = lazy(() => import('./auth/UserUpdateForm'));
 const Navbar = lazy(() => import('./Navbar'));
@@ -19,7 +18,6 @@ const MessageUpdate = lazy(() =>import('./project/Chats/MessageUpdate'));
 
 const Dashboard: FC = () => {
   const store = useContext(StoreContext);
-  const [user, setUser] = useState<IUser>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,7 +25,6 @@ const Dashboard: FC = () => {
     if (localStorage.getItem('token') || store.isAuth) {
         isAuth = store.userStore.checkAuth();
         isAuth?.then(() => {
-          setUser(store.userStore.user)
         })
         .catch(()=>{
           navigate('/login')
