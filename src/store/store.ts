@@ -1,10 +1,10 @@
 import { userStore } from "./userStore";
-import { projectStore } from './projectStore';
-import { memberStore } from './memberStore';
-import { taskStore } from './taskStore';
-import { subtaskStore } from './subtaskStore';
-import { chatStore } from './chatStore';
-import { messageStore } from './messageStore';
+import { projectStore } from './ProjectStore';
+import { memberStore } from './MemberStore';
+import { taskStore } from './TaskStore';
+import { subtaskStore } from './SubtaskStore';
+import { chatStore } from './ChatStore';
+import { messageStore } from './MessageStore';
 
 export class RootStore {
     userStore;

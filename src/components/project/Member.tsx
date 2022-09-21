@@ -88,10 +88,10 @@ const Member:FC = () => {
     event.preventDefault();
     if(id && member_id) {
       let deleted = store.MemberStore.deleteMember(id,member_id)
-      deleted.then((e) => {
+      deleted.then((e:any) => {
         alert(e)
         if(e==='deleted successfully') navigate(`/user/${id}`);
-      }).catch((e) => {
+      }).catch((e:any) => {
         alert(e)
         setError(e);
       })

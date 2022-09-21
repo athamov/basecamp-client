@@ -18,7 +18,7 @@ const Subtasks:FC<{task_id:string}> = ({task_id}:Iprops) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(id) store.SubtaskStore.fetchAll(id,task_id).then((data) =>setSubtasks(data));
+    if(id) store.SubtaskStore.fetchAll(id,task_id).then((data:any) =>setSubtasks(data));
   },[store.SubtaskStore,id,task_id])
 
   const handleNameChange = (even:any) => {

@@ -12,7 +12,7 @@ const SubtaskUpdate: FC = () => {
 
   useEffect(() => {
     if(id && subtask_id) {
-      store.SubtaskStore.get(id,subtask_id).then(subtask =>setName(subtask.subtask_name))
+      store.SubtaskStore.get(id,subtask_id).then((subtask:any) =>setName(subtask.subtask_name))
     }
   },[id,subtask_id,store.SubtaskStore])
 
