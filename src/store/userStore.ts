@@ -25,7 +25,6 @@ class UserStore {
   }
 
   async login(email: string, password: string) {
-    this.root.setLoading(true)
       try {
           const response = await AuthService.login(email, password);
           localStorage.setItem('token', response.data.token.accessToken);
@@ -36,13 +35,9 @@ class UserStore {
           console.log(e.response?.data?.message);
           return e.response?.data?.message;
       }
-      finally {
-        this.root.setLoading(false)
-      }
   }
 
   async registration(email: string, password: string, name:string) {
-    this.root.setLoading(true)
       try {
           const response = await AuthService.registration(email, password, name);
           localStorage.setItem('token', response.data.token.accessToken);
@@ -53,13 +48,9 @@ class UserStore {
           console.log(e.response?.data?.message);
           return e.response?.data?.message
       }
-      finally {
-        this.root.setLoading(false)
-      }
   }
 
   async logout() {
-    this.root.setLoading(true)
       try {
           await AuthService.logout();
           localStorage.removeItem('token');
@@ -70,13 +61,9 @@ class UserStore {
           console.log(e.response?.data?.message);
           return e.response?.data?.message;
       }
-      finally {
-        this.root.setLoading(false)
-      }
   }
 
   async checkAuth() {
-      this.root.setLoading(true)
       try {
           const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
           localStorage.setItem('token', response.data.token.accessToken);
@@ -86,13 +73,10 @@ class UserStore {
       } catch (e:any) {
           console.log(e.response?.data?.message);
           return false;
-      } finally {
-          this.root.setLoading(false);
       }
   }
 
   async updateUser(name: string,email: string,newPassword: string, oldPassword:string) {
-      this.root.setLoading(true);
       try {
           const response = await UserService.updateUser(name, email, newPassword, oldPassword);
           this.setUser(response.data);
@@ -100,9 +84,7 @@ class UserStore {
       } catch (e:any) {
           console.log(e.response?.data?.message);
           return e.response?.data?.message;
-      } finally {
-          this.root.setLoading(false);
-      } 
+      }
   }
 }
 
