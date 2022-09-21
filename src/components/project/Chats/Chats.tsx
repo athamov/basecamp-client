@@ -14,8 +14,9 @@ const Chats: FC = () => {
 
   useEffect(() => {
     if(id) getChat(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[id]);
-  
+
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id){
