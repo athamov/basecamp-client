@@ -12,7 +12,7 @@ export class RootStore {
     MemberStore;
     TaskStore;
     SubtaskStore;
-    chatStore;
+    ChatStore;
     MessageStore;
     isLoading = false;
     isAuth = false;
@@ -23,7 +23,7 @@ export class RootStore {
         this.MemberStore =  memberStore;
         this.TaskStore = taskStore;
         this.SubtaskStore = subtaskStore;
-        this.chatStore = chatStore;
+        this.ChatStore = chatStore;
         this.MessageStore = messageStore;
         this.isLoading = false;
     }
