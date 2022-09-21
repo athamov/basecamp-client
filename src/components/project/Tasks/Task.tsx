@@ -40,7 +40,7 @@ const Task: FC<{Task:ITask}> = ({Task}) => {
   }
 
   const handleDelete = () => {
-    if(id) store.TaskStore.delete(id,Task._id).then((data) => {
+    if(id) store.TaskStore.delete(id,Task._id).then((data:any) => {
       alert(data);
       window.location.reload();
     });

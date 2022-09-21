@@ -1,9 +1,9 @@
 import { IChat } from '../model/IChat';
 import { makeAutoObservable } from "mobx";
-import { RootStore } from "./store";
+import store,{ RootStore } from "./store";
 import ChatService from "../service/ChatService";
 
-export class ChatStore{
+class ChatStore{
   root:RootStore;
   chats=[] as IChat[];
   constructor(root:RootStore) {
@@ -94,3 +94,5 @@ export class ChatStore{
     }
   }
 }
+
+export const chatStore = new ChatStore(store)

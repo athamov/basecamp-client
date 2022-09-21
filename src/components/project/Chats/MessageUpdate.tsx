@@ -11,7 +11,7 @@ const ChatUpdate: FC = () => {
 
   useEffect(() => {
     if(id && message_id) {
-      store.MessageStore.get(id,message_id).then(message =>setMessage(message.message))
+      store.MessageStore.get(id,message_id).then((message:any) =>setMessage(message.message))
     }
   },[id,message_id,store.MessageStore])
 
@@ -24,10 +24,10 @@ const ChatUpdate: FC = () => {
     event.preventDefault();
     if(id && message_id) {
     let updated = store.MessageStore.update(id,message_id,message);
-    updated.then((e) => {
+    updated.then((e:any) => {
       alert(e)
       if(e==='updated succesfully') navigate(`/user/${id}`);
-    }).catch((e) => {
+    }).catch((e:any) => {
       alert(e)
     })
   }

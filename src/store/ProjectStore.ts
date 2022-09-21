@@ -1,11 +1,9 @@
 import { makeAutoObservable } from "mobx";
-import { RootStore } from "./store";
+import store,{ RootStore } from "./store";
 import ProjectService from "../service/ProjectService";
-import MemberService from "../service/MemberService";
 import { IProject } from "../model/IProject";
-import { IMember,role,request } from "../model/IMember";
 
-export class ProjectStore {
+class ProjectStore {
   root:RootStore;
   project={} as IProject;
   constructor(root:RootStore) {
@@ -95,3 +93,5 @@ export class ProjectStore {
     }
   }
 }
+
+export const projectStore = new ProjectStore(store)

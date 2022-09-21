@@ -10,7 +10,7 @@ const AllProject:FC = () => {
   useEffect(() => {
     const res= store.ProjectStore.getAllProjects()
     res.then( (data:IProject[]) => setAllProjects(data) )
-    .catch((error)=>{
+    .catch((error:any)=>{
       alert(error.message)
     })
   },[store.ProjectStore]);

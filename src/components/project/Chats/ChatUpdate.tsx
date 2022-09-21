@@ -11,7 +11,7 @@ const ChatUpdate: FC = () => {
 
   useEffect(() => {
     if(id && chat_id) {
-      store.ChatStore.get(id,chat_id).then(chat =>setName(chat.chat.chat_name))
+      store.ChatStore.get(id,chat_id).then((chat:any) =>setName(chat.chat.chat_name))
     }
   },[id,chat_id,store.ChatStore])
 
@@ -23,15 +23,15 @@ const ChatUpdate: FC = () => {
     event.preventDefault();
     if(id && chat_id) {
     let updated = store.ChatStore.update(id,chat_id,name);
-    updated.then((e) => {
+    updated.then((e:any) => {
       alert(e)
       if(e==='updated succesfully') navigate(`/user/${id}`);
-    }).catch((e) => {
+    }).catch((e:any) => {
       alert(e)
     })
   }}
   const handleDelete = () => {
-    if(id && chat_id) {store.ChatStore.delete(id,chat_id).then((data) => {
+    if(id && chat_id) {store.ChatStore.delete(id,chat_id).then((data:any) => {
       alert(data);
       navigate(`/user/${id}`);
     });

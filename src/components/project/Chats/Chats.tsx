@@ -24,14 +24,14 @@ const Chats: FC = () => {
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id){
-      store.ChatStore.create(id,name).then((data) => {
+      store.ChatStore.create(id,name).then((data:any) => {
         if(data==='created successfully') getChat(id);
       })
     }
   }
 
   const getChat = (id:string) => {
-    store.ChatStore.fetchAll(id).then((data) => {
+    store.ChatStore.fetchAll(id).then((data:any) => {
       setChats(data);
     })
   }

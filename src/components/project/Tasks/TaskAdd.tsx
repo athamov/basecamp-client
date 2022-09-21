@@ -20,10 +20,10 @@ const TaskAdd: FC = () => {
     event.preventDefault();
     if(id){
     let created = store.TaskStore.addTask(id,name)
-    created.then((e) => {
+    created.then((e:any) => {
       alert(e)
       if(e==='created successfully') navigate(`/user/${id}`);
-    }).catch((e) => {
+    }).catch((e:any) => {
       alert(e)
       setError(e);
     })

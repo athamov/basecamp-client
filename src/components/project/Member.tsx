@@ -32,7 +32,7 @@ const Member:FC = () => {
 
   useEffect(() => {
     if(id && member_id) {
-      store.MemberStore.getMember(id,member_id).then(member =>setMember(member))
+      store.MemberStore.getMember(id,member_id).then((member:any) =>setMember(member))
     }
   },[id,member_id,store.MemberStore])
 
@@ -73,10 +73,10 @@ const Member:FC = () => {
     const request = {Read:read,Write:write,Update:update,Delete:Delete}
     let memberRole = admin?role.admin:role.user;
     let created = store.MemberStore.updateMember(id,member_id,memberRole,request)
-    created.then((e) => {
+    created.then((e:any) => {
       alert(e)
       if(e==='updated successfully') navigate(`/user/${id}`);
-    }).catch((e) => {
+    }).catch((e:any) => {
       alert(e)
       setError(e);
     })

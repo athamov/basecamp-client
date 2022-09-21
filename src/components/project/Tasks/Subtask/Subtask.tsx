@@ -35,7 +35,7 @@ const Task: FC<{Subtask:ISubtask}> = ({Subtask}) => {
   }
 
   const handleDelete = () => {
-    if(id) store.SubtaskStore.delete(id,Subtask._id).then((data) => {
+    if(id) store.SubtaskStore.delete(id,Subtask._id).then((data:any) => {
       alert(data);
       window.location.reload();
     });

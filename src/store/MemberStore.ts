@@ -1,9 +1,9 @@
 import {IMember,role,request} from '../model/IMember';
 import { makeAutoObservable } from "mobx";
-import { RootStore } from "./store";
+import store,{ RootStore } from "./store";
 import MemberService from "../service/MemberService";
 
-export class MemberStore{
+class MemberStore{
   root:RootStore;
   members=[] as IMember[];
   constructor(root:RootStore) {
@@ -94,3 +94,5 @@ export class MemberStore{
     }
   }
 }
+
+export const memberStore = new MemberStore(store)

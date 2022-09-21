@@ -30,7 +30,7 @@ const Tasks: FC<{id:string}> = ({id}:Iprops) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    store.TaskStore.fetchAll(id).then((data) =>setTasks(data));
+    store.TaskStore.fetchAll(id).then((data:any) =>setTasks(data));
   },[store.TaskStore,id])
 
   useEffect(()=>{

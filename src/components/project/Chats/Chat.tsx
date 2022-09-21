@@ -20,7 +20,7 @@ const Chat: FC<{chat_id:string}> = ({chat_id}:Iprops) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if(id && chat_id) store.ChatStore.get(id, chat_id).then((data) =>{
+    if(id && chat_id) store.ChatStore.get(id, chat_id).then((data:any) =>{
       setChats(data.chat);
       setMessages(data.messages);
     })
@@ -29,8 +29,8 @@ const Chat: FC<{chat_id:string}> = ({chat_id}:Iprops) => {
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id){
-      store.MessageStore.add(id, chat_id,message).then(data=>{
-        store.ChatStore.get(id, chat_id).then(data=>{
+      store.MessageStore.add(id, chat_id,message).then((data:any)=>{
+        store.ChatStore.get(id, chat_id).then((data:any) =>{
           setChats(data.chat);
           setMessages(data.messages);
           setMessage("")

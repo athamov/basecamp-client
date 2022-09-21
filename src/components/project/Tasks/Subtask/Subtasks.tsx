@@ -27,7 +27,7 @@ const Subtasks:FC<{task_id:string}> = ({task_id}:Iprops) => {
 
   const handleAdd = () => {
     if(id && task_id && name) {
-      store.SubtaskStore.add(id,task_id,name).then((e) => {})
+      store.SubtaskStore.add(id,task_id,name).then((e:any) => {})
     }
   }
   return (

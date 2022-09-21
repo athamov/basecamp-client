@@ -1,30 +1,30 @@
 import { userStore } from "./userStore";
-import { ProjectStore } from './projectStore';
-import { MemberStore } from './memberStore';
-import { TaskStore } from './taskStore';
-import { SubtaskStore } from './subtaskStore';
-import { ChatStore } from './chatStore';
-import { MessageStore } from './messageStore';
+import { projectStore } from './projectStore';
+import { memberStore } from './memberStore';
+import { taskStore } from './taskStore';
+import { subtaskStore } from './subtaskStore';
+import { chatStore } from './chatStore';
+import { messageStore } from './messageStore';
 
 export class RootStore {
     userStore;
-    ProjectStore:ProjectStore;
-    MemberStore:MemberStore;
-    TaskStore:TaskStore;
-    SubtaskStore:SubtaskStore;
-    ChatStore:ChatStore;
-    MessageStore:MessageStore;
+    ProjectStore;
+    MemberStore;
+    TaskStore;
+    SubtaskStore;
+    chatStore;
+    MessageStore;
     isLoading = false;
     isAuth = false;
 
     constructor() {
         this.userStore = userStore;
-        this.ProjectStore = new ProjectStore(this);
-        this.MemberStore = new MemberStore(this);
-        this.TaskStore = new TaskStore(this);
-        this.SubtaskStore = new SubtaskStore(this);
-        this.ChatStore = new ChatStore(this);
-        this.MessageStore = new MessageStore(this);
+        this.ProjectStore = projectStore;
+        this.MemberStore =  memberStore;
+        this.TaskStore = taskStore;
+        this.SubtaskStore = subtaskStore;
+        this.chatStore = chatStore;
+        this.MessageStore = messageStore;
         this.isLoading = false;
     }
 

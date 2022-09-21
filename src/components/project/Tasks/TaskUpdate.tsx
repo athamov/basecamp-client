@@ -12,7 +12,7 @@ const TaskUpdate: FC = () => {
 
   useEffect(() => {
     if(id && task_id) {
-      store.TaskStore.get(id,task_id).then(task =>setName(task.task_name))
+      store.TaskStore.get(id,task_id).then((task:any) =>setName(task.task_name))
     }
   },[id,task_id,store.TaskStore])
 
@@ -25,10 +25,10 @@ const TaskUpdate: FC = () => {
     event.preventDefault();
     if(id && task_id) {
     let updated = store.TaskStore.update(id,task_id,name);
-    updated.then((e) => {
+    updated.then((e:any) => {
       alert(e)
       if(e==='updated succesfully') navigate(`/user/${id}`);
-    }).catch((e) => {
+    }).catch((e:any) => {
       alert(e)
     })
   }

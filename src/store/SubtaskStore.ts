@@ -1,9 +1,10 @@
 import { ISubtask } from '../model/ISubtask';
 import { makeAutoObservable } from "mobx";
-import { RootStore } from "./store";
+import store,{ RootStore } from "./store";
+
 import Subtask from "../service/SubtaskService";
 
-export class SubtaskStore{
+class SubtaskStore{
   root:RootStore;
   subtask=[] as ISubtask[];
   constructor(root:RootStore) {
@@ -109,3 +110,5 @@ export class SubtaskStore{
     }
   }
 }
+
+export const subtaskStore = new SubtaskStore(store)

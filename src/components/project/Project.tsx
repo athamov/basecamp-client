@@ -29,15 +29,15 @@ const Project:FC = () => {
   useEffect(() =>{
     if(id){
     setUser(store.userStore.user);
-    store.ProjectStore.getProject(id).then((data)=> {if(data) setProject(data)});
-    store.MemberStore.fetchMembers(id).then((data)=>setMembers(data));
+    store.ProjectStore.getProject(id).then((data:any)=> {if(data) setProject(data)});
+    store.MemberStore.fetchMembers(id).then((data:any)=>setMembers(data));
   }
   },
   [store.ProjectStore,store.MemberStore,store.userStore,id]);
 
   useEffect(() => {
     if(user && members) {
-      setCurrentMember(members.find(member => member.User === user.id))
+      setCurrentMember(members.find((member:any) => member.User === user.id))
     }
   },[user,members])
 
@@ -55,10 +55,10 @@ const Project:FC = () => {
     event.preventDefault();
     if(id){
     let isDelete = store.ProjectStore.deleteProject(id)
-    isDelete.then((e) => {
+    isDelete.then((e:any) => {
       alert(e)
       if(e==='deleted successfully') navigate('/user');
-    }).catch((e) => {
+    }).catch((e:any) => {
       alert(e)
     })
   }

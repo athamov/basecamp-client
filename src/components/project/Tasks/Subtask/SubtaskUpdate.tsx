@@ -24,10 +24,10 @@ const SubtaskUpdate: FC = () => {
     event.preventDefault();
     if(id && subtask_id) {
     let updated = store.SubtaskStore.update(id,subtask_id,name);
-    updated.then((e) => {
+    updated.then((e:any) => {
       alert(e)
       if(e==='updated succesfully') navigate(`/user/${id}`);
-    }).catch((e) => {
+    }).catch((e:any) => {
       alert(e)
     })
   }

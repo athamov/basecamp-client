@@ -1,9 +1,9 @@
 import { IMessage } from '../model/IMessage';
 import { makeAutoObservable } from "mobx";
-import { RootStore } from "./store";
+import store,{ RootStore } from "./store";
 import MessageService from "../service/MessageService";
 
-export class MessageStore{
+class MessageStore{
   root:RootStore;
   messages=[] as IMessage[];
   constructor(root:RootStore) {
@@ -94,3 +94,5 @@ export class MessageStore{
     }
   }
 }
+
+export const messageStore = new MessageStore(store)

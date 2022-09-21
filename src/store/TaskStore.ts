@@ -1,9 +1,10 @@
 import { ITask } from '../model/ITask';
 import { makeAutoObservable } from "mobx";
-import { RootStore } from "./store";
+import store,{ RootStore } from "./store";
+
 import TaskService from "../service/TaskService";
 
-export class TaskStore{
+class TaskStore{
   root:RootStore;
   tasks=[] as ITask[];
   constructor(root:RootStore) {
@@ -109,3 +110,5 @@ export class TaskStore{
     }
   }
 }
+
+export const taskStore = new TaskStore(store)

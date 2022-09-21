@@ -57,10 +57,10 @@ const MemberAdd: FC = () => {
     if(id&&isValidEmail(email)){
     let memberRole = admin?role.admin:role.user;
     let created = store.MemberStore.addMember(id,email,memberRole,request)
-    created.then((e) => {
+    created.then((e:any) => {
       alert(e)
       if(e==='member added successfully') navigate(`/user/${id}`);
-    }).catch((e) => {
+    }).catch((e:any) => {
       alert(e)
       setError(e);
     })
