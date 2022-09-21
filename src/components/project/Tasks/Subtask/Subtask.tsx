@@ -13,7 +13,6 @@ export const defaultSubtask:ISubtask = {
 
 const Task: FC<{Subtask:ISubtask}> = ({Subtask}) => {
   const [ subtask,setSubtask ] = useState<string>(defaultSubtask.subtask_name);
-  const [isActivated,setIsActivated] = useState<boolean>(true);
   const [ checked, setChecked] = useState<boolean>(defaultSubtask.is_done)
   const store = useContext(StoreContext);
   const {id} = useParams();

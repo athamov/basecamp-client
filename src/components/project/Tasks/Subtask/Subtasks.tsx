@@ -1,5 +1,5 @@
 import React, {FC, useState,useEffect, useContext} from 'react';
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 import { ISubtask } from "../../../../model/ISubtask";
 import { StoreContext } from '../../../../context/store-context';
@@ -15,7 +15,6 @@ const Subtasks:FC<{task_id:string}> = ({task_id}:Iprops) => {
   const [name,setName] = useState<string>("");
   const store = useContext(StoreContext);
   const { id } = useParams();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if(id) store.SubtaskStore.fetchAll(id,task_id).then((data:any) =>setSubtasks(data));

@@ -1,15 +1,13 @@
 import React, { FC, useState, useEffect, useContext,lazy,Suspense } from 'react'
 import Loader from '../Loader';
 import { StoreContext } from '../../context/store-context';
-import { Routes, Route,useParams,Link,useNavigate } from 'react-router-dom';
+import { useParams,Link,useNavigate } from 'react-router-dom';
 import { IProject } from '../../model/IProject';
-import { IMember, role, request} from '../../model/IMember';
+import { IMember} from '../../model/IMember';
 import { IUser } from '../../model/IUser';
 import Dropzone from './Attachment/Dropzone';
 const Tasks = lazy(() => import('./Tasks/Tasks'))
 const Chats = lazy(() => import('./Chats/Chats'))
-const TaskAdd = lazy(() => import('./Tasks/TaskAdd'))
-const MemberAdd = lazy(() => import('./MemberAdd'))
 
 const defaultProject:IProject = {
   project_name: '',

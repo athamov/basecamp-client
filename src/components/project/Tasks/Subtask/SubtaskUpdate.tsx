@@ -2,7 +2,6 @@ import React, {FC, useState,useEffect, useContext} from 'react';
 import { useNavigate,useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 import { StoreContext } from '../../../../context/store-context';
-import { defaultSubtask } from './Subtask';
 
 const SubtaskUpdate: FC = () => {
   const [name,setName] = useState<string>("");

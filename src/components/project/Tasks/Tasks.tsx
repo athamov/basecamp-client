@@ -1,9 +1,8 @@
 import React, {FC, useState,useEffect, useContext} from 'react';
-import { useNavigate } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 import {ITask} from "../../../model/ITask";
 import { StoreContext } from '../../../context/store-context';
-import Task,{ defaultTask } from "./Task";
+import Task from "./Task";
 interface Iprops  {
   id:string
 }
@@ -11,7 +10,6 @@ interface Iprops  {
 const Tasks: FC<{id:string}> = ({id}:Iprops) => {
   const [ tasks,setTasks ] = useState<ITask[]>([])
   const store = useContext(StoreContext);
-  const navigate = useNavigate()
 
   useEffect(() => {
     store.TaskStore.fetchAll(id).then((data:any) =>setTasks(data));
