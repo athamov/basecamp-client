@@ -2,6 +2,8 @@ import React, { FC, useState, useEffect, useContext,lazy,Suspense } from 'react'
 import Loader from '../Loader';
 import { StoreContext } from '../../context/store-context';
 import { useParams,Link,useNavigate } from 'react-router-dom';
+import ProjectService from '../../service/ProjectService';
+import MemberService from '../../service/MemberService';
 import { IProject } from '../../model/IProject';
 import { IMember} from '../../model/IMember';
 import { IUser } from '../../model/IUser';
@@ -26,12 +28,11 @@ const Project:FC = () => {
 
   useEffect(() =>{
     if(id){
-    setUser(store.userStore.user);
-    store.ProjectStore.getProject(id).then((data:any)=> {if(data) setProject(data)});
-    store.MemberStore.fetchMembers(id).then((data:any)=>setMembers(data));
+    setUser(store.user);
+    ProjectService.fetchtProject(id).then((res:any)=> {if(res) setProject(res.data)});
+    MemberService.fetchMembers(id).then((res:any)=>setMembers(res.data));
   }
-  },
-  [store.ProjectStore,store.MemberStore,store.userStore,id]);
+  },[id,store]);
 
   useEffect(() => {
     if(user && members) {
@@ -52,10 +53,10 @@ const Project:FC = () => {
   const handleDeleteClick = (event:any)=>{
     event.preventDefault();
     if(id){
-    let isDelete = store.ProjectStore.deleteProject(id)
+    let isDelete = ProjectService.delete(id)
     isDelete.then((e:any) => {
       alert(e)
-      if(e==='deleted successfully') navigate('/user');
+      navigate('/user');
     }).catch((e:any) => {
       alert(e)
     })

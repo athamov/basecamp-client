@@ -1,15 +1,15 @@
-import React, {FC, useState, useContext} from 'react';
+import React, { FC, useState } from 'react';
 import { useNavigate,useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
-import { StoreContext } from '../../../context/store-context';
-
+// import { StoreContext } from '../../../context/store-context';
+import TaskService from '../../../service/TaskService';
 
 const TaskAdd: FC = () => {
   const [error,setError] = useState<boolean>(false)
   const [name,setName] = useState<string>("");
   const { id } = useParams<string>();
 
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const navigate = useNavigate()
 
   const handleNameChange = (even:any) => {
@@ -19,10 +19,10 @@ const TaskAdd: FC = () => {
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id){
-    let created = store.TaskStore.addTask(id,name)
+    let created = TaskService.create(id,name)
     created.then((e:any) => {
       alert(e)
-      if(e==='created successfully') navigate(`/user/${id}`);
+      navigate(`/user/${id}`);
     }).catch((e:any) => {
       alert(e)
       setError(e);

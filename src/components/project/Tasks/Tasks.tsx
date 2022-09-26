@@ -1,19 +1,21 @@
-import React, {FC, useState,useEffect, useContext} from 'react';
+import React, { FC, useState,useEffect } from 'react';
 import { observer } from "mobx-react-lite";
 import {ITask} from "../../../model/ITask";
-import { StoreContext } from '../../../context/store-context';
+// import { StoreContext } from '../../../context/store-context';
 import Task from "./Task";
+import TaskService from "../../../service/TaskService";
+
 interface Iprops  {
   id:string
 }
 
 const Tasks: FC<{id:string}> = ({id}:Iprops) => {
   const [ tasks,setTasks ] = useState<ITask[]>([])
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
 
   useEffect(() => {
-    store.TaskStore.fetchAll(id).then((data:any) =>setTasks(data));
-  },[store.TaskStore,id])
+    TaskService.fetchAll(id).then((res:any) =>setTasks(res.data));
+  },[id])
 
   return (
     <section className="flex flex-col w-3/4 dark:text-red-300">

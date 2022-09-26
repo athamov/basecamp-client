@@ -1,19 +1,20 @@
-import React, { FC,useState,useEffect, useContext} from 'react'
-import { StoreContext } from '../../context/store-context';
+import React, { FC,useState,useEffect } from 'react'
+// import { StoreContext } from '../../context/store-context';
 import { Link } from 'react-router-dom';
 import {observer} from 'mobx-react-lite'
 import { IProject } from '../../model/IProject'
+import ProjectService from '../../service/ProjectService';
 
 const AllProject:FC = () => {
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const [AllProjects,setAllProjects] = useState<IProject[]>();
   useEffect(() => {
-    const res= store.ProjectStore.getAllProjects()
-    res.then( (data:IProject[]) => setAllProjects(data) )
+    const res= ProjectService.fetchProjects()
+    res.then( (response:any) => setAllProjects(response.data) )
     .catch((error:any)=>{
       alert(error.message)
     })
-  },[store.ProjectStore]);
+  },[]);
   return (
     <div className="m-4 ">
       <h1>All projects you access to</h1>

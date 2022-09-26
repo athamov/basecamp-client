@@ -2,6 +2,7 @@ import React, {FC, useState,useEffect, useContext} from 'react';
 import {useNavigate} from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 import { StoreContext } from '../../context/store-context';
+import ProjectService from '../../service/ProjectService';
 
 import {IUser} from "../../model/IUser";
 
@@ -22,15 +23,15 @@ const ProjectAdd: FC = () => {
   };
 
   useEffect(() => {
-    setUser(store.userStore.user);
-  },[store.userStore])
+    setUser(store.user);
+  },[store])
 
   const handleClick = (event:any) => {
     event.preventDefault();
-    let created = store.ProjectStore.createProject(name,description)
+    let created = ProjectService.createProject(name,description)
     created.then((e:any) => {
       alert(e)
-      if(e==='created successfully') navigate('/user');
+      navigate('/user');
     }).catch((e:any) => {
       alert(e)
       setError(e);

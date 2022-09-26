@@ -6,7 +6,7 @@ import { StoreContext } from '../../context/store-context';
 const UserUpdateForm: FC = () => {
   const store = useContext(StoreContext);
   const [error,setError] = useState<boolean>(false)
-  const [email,setEmail] = useState<string>(store.userStore.user?.email);
+  const [email,setEmail] = useState<string>(store.user?.email);
   const [oldPassword,setOldPassword] =useState<string>("");
   const [newPassword,setNewPassword] =useState<string>("");
   const [confirmPassword,setConfirmPassword]= useState<string>("");
@@ -14,8 +14,8 @@ const UserUpdateForm: FC = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    setEmail(store.userStore.user.email);
-  },[store.userStore])
+    setEmail(store.user.email);
+  },[store])
 
   const handleNameChange = (even:any) => {
     setName(even.target.value);
@@ -32,9 +32,9 @@ const UserUpdateForm: FC = () => {
 
   const handleClick = (event: any) => {
     event.preventDefault();
-    if(!name) {setName(store.userStore.user.name);}
+    if(!name) {setName(store.user.name);}
     if(newPassword===confirmPassword) {
-      let isUpdated = store.userStore.updateUser(name,email,newPassword,oldPassword)
+      let isUpdated = store.updateUser(name,email,newPassword,oldPassword)
       isUpdated.then((e:any) => {
         alert(e)
         if(e==='updated successfully') navigate('/user');

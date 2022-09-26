@@ -23,7 +23,7 @@ const Dashboard: FC = () => {
   useEffect(() => {
     let isAuth;
     if (localStorage.getItem('token') || store.isAuth) {
-        isAuth = store.userStore.checkAuth();
+        isAuth = store.checkAuth();
         isAuth?.then(() => {
         })
         .catch(()=>{

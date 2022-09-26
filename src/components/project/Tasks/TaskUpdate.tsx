@@ -1,19 +1,20 @@
-import React, {FC, useState,useEffect, useContext} from 'react';
+import React, { FC, useState,useEffect } from 'react';
 import { useNavigate,useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
-import { StoreContext } from '../../../context/store-context';
+// import { StoreContext } from '../../../context/store-context';
+import TaskService from "../../../service/TaskService";
 
 const TaskUpdate: FC = () => {
   const [name,setName] = useState<string>("");
   const { id,task_id } = useParams<string>();
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const navigate = useNavigate()
 
   useEffect(() => {
     if(id && task_id) {
-      store.TaskStore.get(id,task_id).then((task:any) =>setName(task.task_name))
+      TaskService.get(id,task_id).then((task:any) =>setName(task.task_name))
     }
-  },[id,task_id,store.TaskStore])
+  },[id,task_id])
 
 
   const handleNameChange = (even:any) => {
@@ -23,7 +24,7 @@ const TaskUpdate: FC = () => {
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id && task_id) {
-    let updated = store.TaskStore.update(id,task_id,name);
+    let updated = TaskService.update(id,task_id,name);
     updated.then((e:any) => {
       alert(e)
       if(e==='updated succesfully') navigate(`/user/${id}`);

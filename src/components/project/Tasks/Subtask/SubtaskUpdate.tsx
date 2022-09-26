@@ -1,19 +1,20 @@
-import React, {FC, useState,useEffect, useContext} from 'react';
+import React, { FC, useState,useEffect } from 'react';
 import { useNavigate,useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
-import { StoreContext } from '../../../../context/store-context';
+// import { StoreContext } from '../../../../context/store-context';
+import SubtaskService from "../../../../service/SubtaskService";
 
 const SubtaskUpdate: FC = () => {
   const [name,setName] = useState<string>("");
   const { id,subtask_id } = useParams<string>();
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const navigate = useNavigate()
 
   useEffect(() => {
     if(id && subtask_id) {
-      store.SubtaskStore.get(id,subtask_id).then((subtask:any) =>setName(subtask.subtask_name))
+      SubtaskService.get(id,subtask_id).then((data:any) =>setName(data.subtask.subtask_name))
     }
-  },[id,subtask_id,store.SubtaskStore])
+  },[id,subtask_id])
 
   const handleNameChange = (even:any) => {
     setName(even.target.value);
@@ -22,10 +23,10 @@ const SubtaskUpdate: FC = () => {
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id && subtask_id) {
-    let updated = store.SubtaskStore.update(id,subtask_id,name);
+    let updated = SubtaskService.update(id,subtask_id,name);
     updated.then((e:any) => {
       alert(e)
-      if(e==='updated succesfully') navigate(`/user/${id}`);
+      navigate(`/user/${id}`);
     }).catch((e:any) => {
       alert(e)
     })

@@ -1,15 +1,16 @@
-import React, {FC, useState,useEffect, useContext} from 'react';
+import React, {FC, useState,useEffect} from 'react';
 import { useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 import {IChat} from "../../../model/IChat";
-import { StoreContext } from '../../../context/store-context';
+// import { StoreContext } from '../../../context/store-context';
 import Chat  from './Chat'
+import ChatService from '../../../service/ChatService';
 
 const Chats: FC = () => {
   const [ chats,setChats ] = useState<IChat[]>([])
   const [ name,setName ] = useState<string>("")
   const [ChatCollapse,setChatCollapse] = useState<boolean>(false);
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const { id } = useParams()
 
   useEffect(() => {
@@ -20,15 +21,15 @@ const Chats: FC = () => {
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id){
-      store.ChatStore.create(id,name).then((data:any) => {
-        if(data==='created successfully') getChat(id);
+      ChatService.create(id,name).then(() => {
+        getChat(id);
       })
     }
   }
 
   const getChat = (id:string) => {
-    store.ChatStore.fetchAll(id).then((data:any) => {
-      setChats(data);
+    ChatService.fetchAll(id).then((res:any) => {
+      setChats(res.data);
     })
   }
 

@@ -1,9 +1,11 @@
-import React, {FC, useState,useEffect, useContext} from 'react';
+import React, { FC, useState,useEffect } from 'react';
 import { useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 import { ISubtask } from "../../../../model/ISubtask";
-import { StoreContext } from '../../../../context/store-context';
+// import { StoreContext } from '../../../../context/store-context';
 import Subtask from "./Subtask";
+import SubtaskService from "../../../../service/SubtaskService";
+
 interface Iprops  {
   task_id:string
 }
@@ -13,12 +15,12 @@ interface Iprops  {
 const Subtasks:FC<{task_id:string}> = ({task_id}:Iprops) => {
   const [ subtasks,setSubtasks ] = useState<ISubtask[]>([])
   const [name,setName] = useState<string>("");
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const { id } = useParams();
 
   useEffect(() => {
-    if(id) store.SubtaskStore.fetchAll(id,task_id).then((data:any) =>setSubtasks(data));
-  },[store.SubtaskStore,id,task_id])
+    if(id) SubtaskService.fetchAll(id,task_id).then((res:any) =>setSubtasks(res.data));
+  },[id,task_id])
 
   const handleNameChange = (even:any) => {
     setName(even.target.value);
@@ -26,7 +28,7 @@ const Subtasks:FC<{task_id:string}> = ({task_id}:Iprops) => {
 
   const handleAdd = () => {
     if(id && task_id && name) {
-      store.SubtaskStore.add(id,task_id,name).then((e:any) => {})
+      SubtaskService.create(id,task_id,name).then((e:any) => {})
     }
   }
   return (

@@ -1,8 +1,9 @@
-import React, { FC,useState,useEffect, useContext} from 'react'
-import { StoreContext } from '../../context/store-context';
+import React, { FC,useState,useEffect } from 'react'
+// import { StoreContext } from '../../context/store-context';
 import { useNavigate,useParams } from 'react-router-dom';
 import {observer} from 'mobx-react-lite'
 import { IMember,role } from "../../model/IMember";
+import MemberService from '../../service/MemberService';
 
 const MemberDefault:IMember = {
   _id: 'default',
@@ -17,7 +18,7 @@ const MemberDefault:IMember = {
 }} 
 
 const Member:FC = () => {
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const [member,setMember] = useState<IMember>(MemberDefault);
 
   const [error,setError] = useState<boolean>(false);
@@ -32,9 +33,9 @@ const Member:FC = () => {
 
   useEffect(() => {
     if(id && member_id) {
-      store.MemberStore.getMember(id,member_id).then((member:any) =>setMember(member))
+      MemberService.getMember(id,member_id).then((res:any) =>setMember(res.member))
     }
-  },[id,member_id,store.MemberStore])
+  },[id,member_id])
 
   useEffect(() => {
     if(member) {
@@ -72,10 +73,10 @@ const Member:FC = () => {
     if(id && member_id){
     const request = {Read:read,Write:write,Update:update,Delete:Delete}
     let memberRole = admin?role.admin:role.user;
-    let created = store.MemberStore.updateMember(id,member_id,memberRole,request)
+    let created = MemberService.updateMember(id,member_id,memberRole,request)
     created.then((e:any) => {
       alert(e)
-      if(e==='updated successfully') navigate(`/user/${id}`);
+      navigate(`/user/${id}`);
     }).catch((e:any) => {
       alert(e)
       setError(e);
@@ -87,10 +88,10 @@ const Member:FC = () => {
   const handleDelete = (event:any) => {
     event.preventDefault();
     if(id && member_id) {
-      let deleted = store.MemberStore.deleteMember(id,member_id)
+      let deleted = MemberService.deleteMember(id,member_id)
       deleted.then((e:any) => {
         alert(e)
-        if(e==='deleted successfully') navigate(`/user/${id}`);
+        navigate(`/user/${id}`);
       }).catch((e:any) => {
         alert(e)
         setError(e);

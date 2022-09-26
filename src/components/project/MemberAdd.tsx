@@ -1,12 +1,12 @@
-import React, {FC, useState, useContext} from 'react';
+import React, {FC, useState } from 'react';
 import { useNavigate,useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
-import { StoreContext } from '../../context/store-context';
-
+// import { StoreContext } from '../../context/store-context';
+import MemberService from '../../service/MemberService';
 import { role,request } from "../../model/IMember";
 
 const MemberAdd: FC = () => {
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const [error,setError] = useState<boolean>(false)
   const [email,setEmail] = useState<string>("");
   const [admin,setAdmin] = useState<boolean>(false);
@@ -56,10 +56,10 @@ const MemberAdd: FC = () => {
     event.preventDefault();
     if(id&&isValidEmail(email)){
     let memberRole = admin?role.admin:role.user;
-    let created = store.MemberStore.addMember(id,email,memberRole,request)
+    let created = MemberService.createMember(id,email,memberRole,request)
     created.then((e:any) => {
       alert(e)
-      if(e==='member added successfully') navigate(`/user/${id}`);
+      navigate(`/user/${id}`);
     }).catch((e:any) => {
       alert(e)
       setError(e);

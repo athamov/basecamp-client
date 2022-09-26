@@ -1,8 +1,9 @@
-import React, {FC, useState,useEffect, useContext} from 'react';
+import React, { FC, useState,useEffect } from 'react';
 import { useNavigate,useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 import { ISubtask } from "../../../../model/ISubtask"
-import { StoreContext } from '../../../../context/store-context';
+// import { StoreContext } from '../../../../context/store-context';
+import SubtaskService from "../../../../service/SubtaskService";
 
 export const defaultSubtask:ISubtask = {
   subtask_name:'',
@@ -14,7 +15,7 @@ export const defaultSubtask:ISubtask = {
 const Task: FC<{Subtask:ISubtask}> = ({Subtask}) => {
   const [ subtask,setSubtask ] = useState<string>(defaultSubtask.subtask_name);
   const [ checked, setChecked] = useState<boolean>(defaultSubtask.is_done)
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const {id} = useParams();
   const navigate = useNavigate()
 
@@ -24,7 +25,7 @@ const Task: FC<{Subtask:ISubtask}> = ({Subtask}) => {
   },[Subtask])
 
   const toggleCheckbox = () => {
-    if(id) store.SubtaskStore.toggleIsDone(id,Subtask._id).then(() => {
+    if(id) SubtaskService.toggleIsDone(id,Subtask._id).then(() => {
       window.location.reload();
     });
   }
@@ -34,7 +35,7 @@ const Task: FC<{Subtask:ISubtask}> = ({Subtask}) => {
   }
 
   const handleDelete = () => {
-    if(id) store.SubtaskStore.delete(id,Subtask._id).then((data:any) => {
+    if(id) SubtaskService.delete(id,Subtask._id).then((data:any) => {
       alert(data);
       window.location.reload();
     });

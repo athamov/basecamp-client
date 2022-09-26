@@ -11,7 +11,7 @@ const LoginForm: FC = () => {
     const store = useContext(StoreContext);
     let navigate = useNavigate();
     useEffect(() => {
-      let isAuth = store.userStore.user;
+      let isAuth = store.user;
       if (isAuth.id) {
         navigate('/user');
       }
@@ -19,7 +19,7 @@ const LoginForm: FC = () => {
 
     const handleClick = (event:any) =>{
       event.preventDefault();
-      let isLogin = store.userStore.login(email, password);
+      let isLogin = store.login(email, password);
       isLogin.then((e:any) => {
         alert(e)
         if(e==='logged in successfully') navigate('/user');

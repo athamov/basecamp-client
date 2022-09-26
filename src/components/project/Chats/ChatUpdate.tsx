@@ -1,19 +1,20 @@
-import React, {FC, useState,useEffect, useContext} from 'react';
+import React, { FC, useState,useEffect } from 'react';
 import { useNavigate,useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
-import { StoreContext } from '../../../context/store-context';
+// import { StoreContext } from '../../../context/store-context';
+import ChatService from '../../../service/ChatService';
 
 const ChatUpdate: FC = () => {
   const [ name,setName] = useState<string>("");
   const { id, chat_id } = useParams<string>();
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const navigate = useNavigate()
 
   useEffect(() => {
     if(id && chat_id) {
-      store.ChatStore.get(id,chat_id).then((chat:any) =>setName(chat.chat.chat_name))
+      ChatService.get(id,chat_id).then((chat:any) =>setName(chat.chat.chat_name))
     }
-  },[id,chat_id,store.ChatStore])
+  },[id,chat_id])
 
   const handleNameChange = (even:any) => {
     setName(even.target.value);
@@ -22,16 +23,16 @@ const ChatUpdate: FC = () => {
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id && chat_id) {
-    let updated = store.ChatStore.update(id,chat_id,name);
+    let updated = ChatService.update(id,chat_id,name);
     updated.then((e:any) => {
       alert(e)
-      if(e==='updated succesfully') navigate(`/user/${id}`);
+      navigate(`/user/${id}`);
     }).catch((e:any) => {
       alert(e)
     })
   }}
   const handleDelete = () => {
-    if(id && chat_id) {store.ChatStore.delete(id,chat_id).then((data:any) => {
+    if(id && chat_id) {ChatService.delete(id,chat_id).then((data:any) => {
       alert(data);
       navigate(`/user/${id}`);
     });

@@ -1,9 +1,10 @@
-import React, {FC, useState,useEffect, useContext} from 'react';
+import React, { FC, useState,useEffect } from 'react';
 import { useNavigate,useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 import {ITask} from "../../../model/ITask"
-import { StoreContext } from '../../../context/store-context';
+// import { StoreContext } from '../../../context/store-context';
 import Subtasks from './Subtask/Subtasks'
+import TaskService from '../../../service/SubtaskService';
 
 export const defaultTask:ITask = {
   task_name:'',
@@ -16,7 +17,7 @@ const Task: FC<{Task:ITask}> = ({Task}) => {
   const [ task,setTask ] = useState<string>(defaultTask.task_name);
   const [isActivated,setIsActivated] = useState<boolean>(true);
   const [ checked, setChecked] = useState<boolean>(defaultTask.is_done)
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const {id} = useParams();
   const navigate = useNavigate()
 
@@ -30,7 +31,7 @@ const Task: FC<{Task:ITask}> = ({Task}) => {
   }
 
   const toggleCheckbox = () => {
-    if(id) store.TaskStore.toggleIsDone(id,Task._id).then(() => {
+    if(id) TaskService.toggleIsDone(id,Task._id).then(() => {
       window.location.reload();
     });
   }
@@ -40,7 +41,7 @@ const Task: FC<{Task:ITask}> = ({Task}) => {
   }
 
   const handleDelete = () => {
-    if(id) store.TaskStore.delete(id,Task._id).then((data:any) => {
+    if(id) TaskService.delete(id,Task._id).then((data:any) => {
       alert(data);
       window.location.reload();
     });

@@ -1,9 +1,11 @@
-import React, {FC, useState,useEffect, useContext} from 'react';
+import React, {FC, useState,useEffect} from 'react';
 import { useParams, Link } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 import {IChat} from "../../../model/IChat";
 import {IMessage} from "../../../model/IMessage";
-import { StoreContext } from '../../../context/store-context';
+// import { StoreContext } from '../../../context/store-context';
+import ChatService from '../../../service/ChatService';
+import MessageService from '../../../service/MessageService';
 
 interface Iprops  {
   chat_id:string
@@ -15,25 +17,25 @@ const Chat: FC<{chat_id:string}> = ({chat_id}:Iprops) => {
   const [ message,setMessage ] = useState<string>("")
   const [ messages,setMessages ] = useState<IMessage[]>()
   const [ChatCollapse,setChatCollapse] = useState<boolean>(false);
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const {id} = useParams();
 
   useEffect(() => {
-    if(id && chat_id) store.ChatStore.get(id, chat_id).then((data:any) =>{
-      setChats(data.chat);
-      setMessages(data.messages);
+    if(id && chat_id) ChatService.get(id, chat_id).then((res:any) =>{
+      setChats(res.data.chat);
+      setMessages(res.data.messages);
     })
-  },[id, chat_id,store.ChatStore]);
+    .catch((error) =>{console.error(error)});
+  },[id, chat_id]);
 
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id){
-      store.MessageStore.add(id, chat_id,message).then((data:any)=>{
-        store.ChatStore.get(id, chat_id).then((data:any) =>{
-          setChats(data.chat);
-          setMessages(data.messages);
-          setMessage("")
-
+      MessageService.create(id, chat_id,message).then((messageRes:any)=>{
+        ChatService.get(id, chat_id).then((res:any) =>{
+          setChats(res.data.chat);
+          setMessages(res.data.messages);
+          setMessage("");
         });
       });
     }

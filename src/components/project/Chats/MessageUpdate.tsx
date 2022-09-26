@@ -1,19 +1,20 @@
-import React, {FC, useState,useEffect, useContext} from 'react';
+import React, { FC, useState,useEffect } from 'react';
 import { useNavigate,useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
-import { StoreContext } from '../../../context/store-context';
+// import { StoreContext } from '../../../context/store-context';
+import ChatService from '../../../service/ChatService';
 
 const ChatUpdate: FC = () => {
   const [message,setMessage] = useState<string>("");
   const { id, message_id } = useParams<string>();
-  const store = useContext(StoreContext);
+  // const store = useContext(StoreContext);
   const navigate = useNavigate()
 
   useEffect(() => {
     if(id && message_id) {
-      store.MessageStore.get(id,message_id).then((message:any) =>setMessage(message.message))
+      ChatService.get(id,message_id).then((message:any) =>setMessage(message.message))
     }
-  },[id,message_id,store.MessageStore])
+  },[id,message_id])
 
 
   const handleMessageChange = (even:any) => {
@@ -23,7 +24,7 @@ const ChatUpdate: FC = () => {
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id && message_id) {
-    let updated = store.MessageStore.update(id,message_id,message);
+    let updated = ChatService.update(id,message_id,message);
     updated.then((e:any) => {
       alert(e)
       if(e==='updated succesfully') navigate(`/user/${id}`);

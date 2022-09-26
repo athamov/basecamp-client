@@ -1,30 +1,19 @@
-import { userStore } from "./userStore";
-import { projectStore } from './ProjectStore';
-import { memberStore } from './MemberStore';
-import { taskStore } from './TaskStore';
-import { subtaskStore } from './SubtaskStore';
-import { chatStore } from './ChatStore';
-import { messageStore } from './MessageStore';
+import axios from 'axios';
+
+import { API_URL } from "../http";
+import {AuthResponse} from "../model/response/AuthResponse";
+import {IUser} from "../model/IUser";
+
+import AuthService from "../service/AuthService";
+import  UserService  from "../service/UserService";
+
 
 export class RootStore {
-    userStore;
-    ProjectStore;
-    MemberStore;
-    TaskStore;
-    SubtaskStore;
-    ChatStore;
-    MessageStore;
     isLoading = false;
     isAuth = false;
+    user = {} as IUser;
 
     constructor() {
-        this.userStore = userStore;
-        this.ProjectStore = projectStore;
-        this.MemberStore =  memberStore;
-        this.TaskStore = taskStore;
-        this.SubtaskStore = subtaskStore;
-        this.ChatStore = chatStore;
-        this.MessageStore = messageStore;
         this.isLoading = false;
     }
 
@@ -35,6 +24,72 @@ export class RootStore {
         this.isAuth = bool;
     }
 
+    setUser(user: IUser) {
+        this.user = user;
+    }
+  
+    async login(email: string, password: string) {
+        try {
+            const response = await AuthService.login(email, password);
+            localStorage.setItem('token', response.data.token.accessToken);
+            this.setAuth(true);
+            this.setUser(response.data.user);
+            return 'logged in successfully'
+        } catch (e:any) {
+            console.log(e.response?.data?.message);
+            return e.response?.data?.message;
+        }
+    }
+  
+    async registration(email: string, password: string, name:string) {
+        try {
+            const response = await AuthService.registration(email, password, name);
+            localStorage.setItem('token', response.data.token.accessToken);
+            this.setAuth(true);
+            this.setUser(response.data.user);
+          return 'registered successfully'
+        } catch (e:any) {
+            console.log(e.response?.data?.message);
+            return e.response?.data?.message
+        }
+    }
+  
+    async logout() {
+        try {
+            await AuthService.logout();
+            localStorage.removeItem('token');
+            this.setAuth(false);
+            this.setUser({} as IUser);
+            return 'loggged out successfully';
+        } catch (e:any) {
+            console.log(e.response?.data?.message);
+            return e.response?.data?.message;
+        }
+    }
+  
+    async checkAuth() {
+        try {
+            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
+            localStorage.setItem('token', response.data.token.accessToken);
+            this.setAuth(true);
+            this.setUser(response.data.user);
+            return true
+        } catch (e:any) {
+            console.log(e.response?.data?.message);
+            return false;
+        }
+    }
+  
+    async updateUser(name: string,email: string,newPassword: string, oldPassword:string) {
+        try {
+            const response = await UserService.updateUser(name, email, newPassword, oldPassword);
+            this.setUser(response.data);
+            return 'updated successfully'
+        } catch (e:any) {
+            console.log(e.response?.data?.message);
+            return e.response?.data?.message;
+        }
+    }
 }
 
 const store = new RootStore();
