@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'universal-cookie';
 
 import { API_URL } from "../http";
 import {AuthResponse} from "../model/response/AuthResponse";
@@ -12,6 +13,7 @@ export class RootStore {
     isLoading = false;
     isAuth = false;
     user = {} as IUser;
+    cookies = new Cookies();
 
     constructor() {
         this.isLoading = false;
@@ -31,7 +33,8 @@ export class RootStore {
     async login(email: string, password: string) {
         try {
             const response = await AuthService.login(email, password);
-            localStorage.setItem('token', response.data.token.accessToken);
+            this.cookies.set('refreshToken', response.data.token.refreshToken, {maxAge:2592000000,httpOnly:true});
+            localStorage.setItem('refreshToken', response.data.token.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
             return 'logged in successfully'
@@ -44,6 +47,7 @@ export class RootStore {
     async registration(email: string, password: string, name:string) {
         try {
             const response = await AuthService.registration(email, password, name);
+            this.cookies.set('refreshToken', response.data.token.refreshToken, {maxAge:2592000000,httpOnly:true});
             localStorage.setItem('token', response.data.token.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
