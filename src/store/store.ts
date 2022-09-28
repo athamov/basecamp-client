@@ -34,7 +34,6 @@ export class RootStore {
         try {
             const response = await AuthService.login(email, password);
             this.cookies.set('refreshToken', response.data.token.refreshToken, {maxAge:2592000000,httpOnly:true});
-            console.log(this.cookies.get('refreshToken'));
             localStorage.setItem('refreshToken', response.data.token.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
@@ -75,6 +74,7 @@ export class RootStore {
     async checkAuth() {
         try {
             const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
+            console.log(this.cookies.get('refreshToken'));
             localStorage.setItem('token', response.data.token.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
