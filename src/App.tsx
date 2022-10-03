@@ -10,8 +10,7 @@ const UserUpdateForm = lazy(() => import('./components/auth/UserUpdateForm'));
 const ProjectAdd = lazy(() => import('./components/project/ProjectAdd'));
 const Project = lazy(() => import('./components/project/Project'));
 
-const App: FC = () => {
-    
+const App: FC = () => { 
     return (
         <div className="container m-auto h-full min-h-screen font-rale pb-10">
         <Suspense fallback={<Loader />}>
