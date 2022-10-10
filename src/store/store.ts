@@ -34,6 +34,7 @@ export class RootStore {
         try {
             const response = await AuthService.login(email, password);
             this.cookies.set('refreshToken', response.data.token.refreshToken, {maxAge:2592000000,httpOnly:true});
+            document.cookie = `refreshToken=${response.data.token.refreshToken}`;
             localStorage.setItem('token', response.data.token.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
@@ -48,6 +49,7 @@ export class RootStore {
         try {
             const response = await AuthService.registration(email, password, name);
             this.cookies.set('refreshToken', response.data.token.refreshToken, {maxAge:2592000000,httpOnly:true});
+            document.cookie = `refreshToken=${response.data.token.refreshToken}`;
             localStorage.setItem('token', response.data.token.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
