@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {AuthResponse} from "../model/response/AuthResponse";
 
-export const API_URL = `https://basecamp-server.herokuapp.com/api`
+export const API_URL = `https://basecamp-server.herokuapp.com/`
 // export const API_URL = 'http://localhost:7000/api';
 
 const $api = axios.create({
@@ -10,6 +10,7 @@ const $api = axios.create({
 })
 
 $api.interceptors.request.use((config) => {
+    console.log(document.cookie);
     if(config.headers) { config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
                          config.headers.Cookie = document.cookie;
                         }
