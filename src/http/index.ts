@@ -10,7 +10,9 @@ const $api = axios.create({
 })
 
 $api.interceptors.request.use((config) => {
-    if(config.headers) config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    if(config.headers) { config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
+                         config.headers.Cookie = document.cookie;
+                        }
     return config;
 })
 
@@ -21,7 +23,8 @@ $api.interceptors.response.use((config) => {
     if (error.response.status === 401 && error.config && !error.config._isRetry) {
         originalRequest._isRetry = true;
         try {
-            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
+            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true});
+            document.cookie = `refreshToken=${response.data.token.refreshToken} SameSite=None; Secure`;
             localStorage.setItem('token', response.data.token.accessToken);
             return $api.request(originalRequest);
         } catch (e) {
