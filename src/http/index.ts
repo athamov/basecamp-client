@@ -31,7 +31,7 @@ $api.interceptors.request.use((config) => {
     console.log(getCookie(document.cookie));
     console.log(cookies.get(`refreshToken`))
     if(config.headers) { config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
-                         config.headers.Cookie = getCookie(document.cookie);
+                         config.headers.Cookie = document.cookie;
                         }
     return config;
 })
