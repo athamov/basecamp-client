@@ -28,7 +28,7 @@ const $api = axios.create({
 })
 
 $api.interceptors.request.use((config) => {
-    console.log(document.cookie);
+    console.log(getCookie(document.cookie));
     console.log(cookies.get(`refreshToken`))
     if(config.headers) { config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
                          config.headers.Cookie = getCookie(document.cookie);
