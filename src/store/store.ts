@@ -8,7 +8,6 @@ import {IUser} from "../model/IUser";
 import AuthService from "../service/AuthService";
 import  UserService  from "../service/UserService";
 
-
 export class RootStore {
     isLoading = false;
     isAuth = false;
@@ -29,12 +28,19 @@ export class RootStore {
     setUser(user: IUser) {
         this.user = user;
     }
+
+    setCookie(cname:string, cvalue:string, exdays:number) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
   
     async login(email: string, password: string) {
         try {
             const response = await AuthService.login(email, password);
             this.cookies.set('refreshToken', response.data.token.refreshToken, {maxAge:2592000000,httpOnly:true});
-            document.cookie = `refreshToken=${response.data.token.refreshToken}; SameSite=None; Secure`;
+            this.setCookie('refreshToken', response.data.token.refreshToken,10);
             localStorage.setItem('token', response.data.token.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
@@ -49,7 +55,7 @@ export class RootStore {
         try {
             const response = await AuthService.registration(email, password, name);
             this.cookies.set('refreshToken', response.data.token.refreshToken, {maxAge:2592000000,httpOnly:true});
-            document.cookie = `refreshToken=${response.data.token.refreshToken}; SameSite=None; Secure`;
+            this.setCookie('refreshToken', response.data.token.refreshToken,10);
             localStorage.setItem('token', response.data.token.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
@@ -77,7 +83,7 @@ export class RootStore {
         try {
             const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
             console.log(this.cookies.get('refreshToken'));
-            document.cookie = `refreshToken=${response.data.token.refreshToken}; SameSite=None; Secure`;
+            this.setCookie('refreshToken', response.data.token.refreshToken,10);
             localStorage.setItem('token', response.data.token.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
