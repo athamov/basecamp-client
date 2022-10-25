@@ -40,8 +40,8 @@ export class RootStore {
         try {
             const response = await AuthService.login(email, password);
             // this.cookies.set('refreshToken', response.data.token.refreshToken, {maxAge:2592000000,httpOnly:true});
-            this.setCookie('refreshToken', response.data.token.refreshToken,10);
-            document.cookie = 'refreshToken' + "=" + response.data.token.refreshToken + ";" + "expires=2592000000" + ";secure=true;httpOnly=true;path=/";
+            // this.setCookie('refreshToken', response.data.token.refreshToken,10);
+            document.cookie = `refreshToken=${response.data.token.refreshToken};expires=2592000000;secure=true;httpOnly=true;path=/`;
             localStorage.setItem('token', response.data.token.accessToken);
             this.setAuth(true);
             this.setUser(response.data.user);
