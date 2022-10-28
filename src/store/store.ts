@@ -34,13 +34,14 @@ export class RootStore {
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
         // let expires = "expires="+ d.toUTCString();
         // document.cookie = cname + "=" + cvalue + ";" + expires + ";SameSite=None; Secure;httpOnly=true;path=/";
+        document.cookie = `refreshToken=${cvalue}; SameSite=None; Secure`;
     }
   
     async login(email: string, password: string) {
         try {
             const response = await AuthService.login(email, password);
             // this.cookies.set('refreshToken', response.data.token.refreshToken, {maxAge:2592000000,httpOnly:true});
-            document.cookie = `refreshToken=${response.data.token.refreshToken}; SameSite=None; Secure`;
+            // document.cookie = `refreshToken=${response.data.token.refreshToken}; SameSite=None; Secure`;
             this.setCookie('refreshToken', response.data.token.refreshToken,10);
             // document.cookie = `refreshToken=${response.data.token.refreshToken};expires=2592000000;secure=true;httpOnly=true;path=/`;
             localStorage.setItem('token', response.data.token.accessToken);
