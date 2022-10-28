@@ -32,9 +32,9 @@ export class RootStore {
     setCookie(cname:string, cvalue:string, exdays:number) {
         const d = new Date();
         d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        // let expires = "expires="+ d.toUTCString();
+        let expires = "expires="+ d.toUTCString();
         // document.cookie = cname + "=" + cvalue + ";" + expires + ";SameSite=None; Secure;httpOnly=true;path=/";
-        document.cookie = `refreshToken=${cvalue}; SameSite=None; Secure`;
+        document.cookie = `refreshToken=${cvalue}; expires=${expires}; SameSite=None; Secure`;
     }
   
     async login(email: string, password: string) {
