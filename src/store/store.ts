@@ -44,7 +44,7 @@ export class RootStore {
             // document.cookie = `refreshToken=${response.data.token.refreshToken}; SameSite=None; Secure`;
             this.setCookie('refreshToken', response.data.token.refreshToken,10);
             // document.cookie = `refreshToken=${response.data.token.refreshToken};expires=2592000000;secure=true;httpOnly=true;path=/`;
-            localStorage.setItem('token', response.data.token.accessToken);
+            localStorage.setItem('token', response.data.token.refreshToken);
             this.setAuth(true);
             this.setUser(response.data.user);
             return 'logged in successfully'
@@ -59,7 +59,7 @@ export class RootStore {
             const response = await AuthService.registration(email, password, name);
             this.cookies.set('refreshToken', response.data.token.refreshToken, {maxAge:2592000000,httpOnly:true});
             this.setCookie('refreshToken', response.data.token.refreshToken,10);
-            localStorage.setItem('token', response.data.token.accessToken);
+            localStorage.setItem('token', response.data.token.refreshToken);
             this.setAuth(true);
             this.setUser(response.data.user);
           return 'registered successfully'
@@ -87,7 +87,7 @@ export class RootStore {
             const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
             console.log(this.cookies.get('refreshToken'));
             this.setCookie('refreshToken', response.data.token.refreshToken,10);
-            localStorage.setItem('token', response.data.token.accessToken);
+            localStorage.setItem('token', response.data.token.refreshToken);
             this.setAuth(true);
             this.setUser(response.data.user);
             return true
