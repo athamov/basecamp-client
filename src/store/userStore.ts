@@ -63,18 +63,18 @@ class UserStore {
       }
   }
 
-  async checkAuth() {
-      try {
-          const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
-          localStorage.setItem('token', response.data.token.accessToken);
-          this.root.setAuth(true);
-          this.setUser(response.data.user);
-          return true
-      } catch (e:any) {
-          console.log(e.response?.data?.message);
-          return false;
-      }
-  }
+//   async checkAuth() {
+//       try {
+//           const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
+//           localStorage.setItem('token', response.data.token.accessToken);
+//           this.root.setAuth(true);
+//           this.setUser(response.data.user);
+//           return true
+//       } catch (e:any) {
+//           console.log(e.response?.data?.message);
+//           return false;
+//       }
+//   }
 
   async updateUser(name: string,email: string,newPassword: string, oldPassword:string) {
       try {
