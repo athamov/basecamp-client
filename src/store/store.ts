@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Cookies from 'universal-cookie';
 
 // import { API_URL } from "../http";
