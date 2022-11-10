@@ -1,7 +1,8 @@
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
-import { API_URL } from "../http";
+// import { API_URL } from "../http";
+import $api from "../http/index"
 import {AuthResponse} from "../model/response/AuthResponse";
 import {IUser} from "../model/IUser";
 
@@ -10,7 +11,7 @@ import  UserService  from "../service/UserService";
 
 export class RootStore {
     isLoading = false;
-    isAuth = false;
+    isAuth:Boolean|undefined = undefined;
     user = {} as IUser;
     cookies = new Cookies();
 
@@ -22,6 +23,7 @@ export class RootStore {
         this.isLoading = bool;
     }
     setAuth(bool: boolean) {
+        console.log(bool)
         this.isAuth = bool;
     }
 
@@ -84,13 +86,13 @@ export class RootStore {
   
     async checkAuth() {
         try {
-            const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {withCredentials: true})
-            console.log(this.cookies.get('refreshToken'));
+            const response = await $api.get<AuthResponse>(`/refresh`, {withCredentials: true})
             this.setCookie('refreshToken', response.data.token.refreshToken,10);
+            console.log(response.data)
             localStorage.setItem('token', response.data.token.refreshToken);
             this.setAuth(true);
             this.setUser(response.data.user);
-            return true
+            return true;
         } catch (e:any) {
             console.log(e.response?.data?.message);
             return false;

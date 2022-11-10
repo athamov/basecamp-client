@@ -14,7 +14,7 @@ const Tasks: FC<{id:string}> = ({id}:Iprops) => {
   // const store = useContext(StoreContext);
 
   useEffect(() => {
-    TaskService.fetchAll(id).then((res:any) =>setTasks(res.data));
+    if(id) TaskService.fetchAll(id).then((res:any) =>setTasks(res.data));
   },[id])
 
   return (
