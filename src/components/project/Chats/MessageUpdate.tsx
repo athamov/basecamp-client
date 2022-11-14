@@ -2,7 +2,7 @@ import React, { FC, useState,useEffect } from 'react';
 import { useNavigate,useParams } from 'react-router-dom'
 import { observer } from "mobx-react-lite";
 // import { StoreContext } from '../../../context/store-context';
-import ChatService from '../../../service/ChatService';
+import MessageService from '../../../service/MessageService';
 
 const ChatUpdate: FC = () => {
   const [message,setMessage] = useState<string>("");
@@ -12,7 +12,8 @@ const ChatUpdate: FC = () => {
 
   useEffect(() => {
     if(id && message_id) {
-      ChatService.get(id,message_id).then((message:any) =>setMessage(message.message))
+      MessageService.get(id,message_id).then((message:any) =>setMessage(message.data.message
+        ))
     }
   },[id,message_id])
 
@@ -24,12 +25,12 @@ const ChatUpdate: FC = () => {
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id && message_id) {
-    let updated = ChatService.update(id,message_id,message);
+    let updated = MessageService.update(id,message_id,message);
     updated.then((e:any) => {
-      alert(e)
-      if(e==='updated succesfully') navigate(`/user/${id}`);
+      console.log(e)
+      if(e.data==='updated succesfully') navigate(`/user/${id}`);
     }).catch((e:any) => {
-      alert(e)
+      console.log(e)
     })
   }
   }

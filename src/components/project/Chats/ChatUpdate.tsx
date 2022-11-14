@@ -12,7 +12,7 @@ const ChatUpdate: FC = () => {
 
   useEffect(() => {
     if(id && chat_id) {
-      ChatService.get(id,chat_id).then((chat:any) =>setName(chat.chat.chat_name))
+      ChatService.get(id,chat_id).then((res:any) =>setName(res.data.chat.chat_name))
     }
   },[id,chat_id])
 
@@ -25,19 +25,12 @@ const ChatUpdate: FC = () => {
     if(id && chat_id) {
     let updated = ChatService.update(id,chat_id,name);
     updated.then((e:any) => {
-      alert(e)
+      console.log(e)
       navigate(`/user/${id}`);
     }).catch((e:any) => {
-      alert(e)
+      console.log(e)
     })
   }}
-  const handleDelete = () => {
-    if(id && chat_id) {ChatService.delete(id,chat_id).then((data:any) => {
-      alert(data);
-      navigate(`/user/${id}`);
-    });
-  }
-  }
 
   return (
     <div className="constainer w-3/4 min-w-3/4 m-auto mt-20">
@@ -50,12 +43,6 @@ const ChatUpdate: FC = () => {
           <button className="CustomButton Blue" 
           onClick={handleClick}>Submit</button>
         </div>
-        <button type="button" className="focus:outline-none text-white flex bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-7 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" onClick={handleDelete}>
-        <span className="material-symbols-outlined">
-        folder_delete
-        </span>
-        <span className="m-1">Delete</span> 
-      </button>
       </form>
     </div>
   )

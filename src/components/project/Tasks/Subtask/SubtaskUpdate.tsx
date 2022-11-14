@@ -12,7 +12,7 @@ const SubtaskUpdate: FC = () => {
 
   useEffect(() => {
     if(id && subtask_id) {
-      SubtaskService.get(id,subtask_id).then((data:any) =>setName(data.subtask.subtask_name))
+      SubtaskService.get(id,subtask_id).then((res:any) =>setName(res.data.subtask_name))
     }
   },[id,subtask_id])
 
@@ -25,10 +25,10 @@ const SubtaskUpdate: FC = () => {
     if(id && subtask_id) {
     let updated = SubtaskService.update(id,subtask_id,name);
     updated.then((e:any) => {
-      alert(e)
+      console.log(e)
       navigate(`/user/${id}`);
     }).catch((e:any) => {
-      alert(e)
+      console.log(e)
     })
   }
   }

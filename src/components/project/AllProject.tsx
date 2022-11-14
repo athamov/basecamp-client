@@ -12,7 +12,7 @@ const AllProject:FC = () => {
     const res= ProjectService.fetchProjects()
     res.then( (response:any) => setAllProjects(response.data) )
     .catch((error:any)=>{
-      alert(error.message)
+      console.log(error.message)
     })
   },[]);
   return (

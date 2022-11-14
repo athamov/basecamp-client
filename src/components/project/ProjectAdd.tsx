@@ -30,10 +30,10 @@ const ProjectAdd: FC = () => {
     event.preventDefault();
     let created = ProjectService.createProject(name,description)
     created.then((e:any) => {
-      alert(e)
+      console.log(e)
       navigate('/user');
     }).catch((e:any) => {
-      alert(e)
+      console.log(e)
       setError(e);
     })
   }

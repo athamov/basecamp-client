@@ -16,7 +16,7 @@ const Chat: FC<{chat_id:string}> = ({chat_id}:Iprops) => {
   const [ chats,setChats ] = useState<IChat>()
   const [ message,setMessage ] = useState<string>("")
   const [ messages,setMessages ] = useState<IMessage[]>()
-  const [ChatCollapse,setChatCollapse] = useState<boolean>(false);
+  const [ ChatCollapse,setChatCollapse ] = useState<boolean>(false);
   // const store = useContext(StoreContext);
   const {id} = useParams();
 
@@ -28,16 +28,37 @@ const Chat: FC<{chat_id:string}> = ({chat_id}:Iprops) => {
     .catch((error) =>{console.error(error)});
   },[id, chat_id]);
 
+  const getChatData = (id:string, chat_id:string) => {
+    ChatService.get(id, chat_id).then((res:any) =>{
+      setChats(res.data.chat);
+      setMessages(res.data.messages);
+      setMessage("");
+    });
+  }
+
   const handleClick = (event:any) => {
     event.preventDefault();
     if(id){
       MessageService.create(id, chat_id,message).then((messageRes:any)=>{
-        ChatService.get(id, chat_id).then((res:any) =>{
-          setChats(res.data.chat);
-          setMessages(res.data.messages);
-          setMessage("");
-        });
+        getChatData(id,chat_id);
       });
+    }
+  }
+  const handleDelete = (event:any) => {
+    event.preventDefault();
+    if(id) {
+      ChatService.delete(id,chat_id).then(
+        window.location.reload()
+      )
+    }
+  };
+
+  const handleMessageDelete = (event:any,messageId:string) => {
+    event.preventDefault();
+    if(id) {
+      MessageService.delete(id,messageId).then(
+        getChatData(id,chat_id)
+      )
     }
   }
 
@@ -53,23 +74,30 @@ const Chat: FC<{chat_id:string}> = ({chat_id}:Iprops) => {
   return (
       <div className=" bottom-10 right-10 bg-rose-800 w-56 m-auto" id="accordion-collapse" data-accordion="collapse">
       <h2 id="accordion-collapse-heading-1">
-        <button type="button" className="flex items-center cursor-context-menu justify-between w-full p-2 font-medium text-left text-rose-500 border border-b-0 border-rose-200 rounded-t-xl focus:ring-4 focus:ring-rose-200 dark:focus:ring-rose-800 dark:border-rose-700 dark:text-rose-400 hover:bg-rose-300 dark:hover:bg-rose-800" data-accordion-target="#accordion-collapse-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1"  onClick={toggleMainCollapse}>
-          <Link to={"chat/"+chats?._id}><div className="text-center">{ chats && chats?.chat_name } </div></Link> 
-          <span className={ChatCollapse?"material-symbols-outlined w-6 h-6 shrink-0 rotate-180":"material-symbols-outlined w-6 h-6 shrink-0"}>
-          expand_less
-          </span>
-        </button>
+        <div className="flex items-center cursor-context-menu justify-between w-full p-2 font-medium text-left text-rose-500 border border-b-0 border-rose-200 rounded-t-xl focus:ring-4 focus:ring-rose-200 dark:focus:ring-rose-800 dark:border-rose-700 dark:text-rose-400 hover:bg-rose-300 dark:hover:bg-rose-800" data-accordion-target="#accordion-collapse-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
+          <div className="text-center">{ chats && chats?.chat_name } </div>
+          <div className="flex">
+            <Link to={"chat/"+chats?._id}> <img src="/pencilWhite.png" width="20" height="20" className="flex-end" alt="edit" /></Link> 
+            <img src="/remove.png" width="20" height="20" className="mx-2" alt="edit" onClick={handleDelete} />
+            <span className={ChatCollapse?"material-symbols-outlined w-6 h-6 shrink-0 rotate-180":"material-symbols-outlined w-6 h-6 shrink-0"} onClick={toggleMainCollapse}>
+            expand_less
+            </span>
+          </div>
+        </div>
       </h2>
       <div id="accordion-collapse-body-1" className={ChatCollapse?"border-rose-200":"hidden"} aria-labelledby="accordion-collapse-heading-1"  >
       <div className="bg-red-400 w-full p-2">
         {messages && messages.map(message =>
-        <Link to={"message/"+message._id} key={message._id}>
           <div className="text-base max-h-80 max-w-52 overflow-auto bg-scroll shadow-inner border-y-2">
             <p className="text-blue-200">{message.message_owner}</p>
-            <p className="max-w-sm text-sm">{message.message}</p>
+            <div className="flex justify-between">
+              <p className="max-w-sm text-sm">{message.message}</p>
+              <div className="flex">
+                <Link to={"message/"+message._id} key={message._id}> <img src="/pencilWhite.png" width="20" height="20" className="flex-end" alt="edit" /></Link> 
+                <img src="/remove.png" width="20" height="20" className="mx-2" alt="edit" onClick={(e)=>handleMessageDelete(e,message._id)} />
+              </div>
+            </div>
           </div>
-        </Link>
-
           )}
       </div>
       <form>   

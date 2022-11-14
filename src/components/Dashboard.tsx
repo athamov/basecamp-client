@@ -22,14 +22,10 @@ const Dashboard: FC = () => {
 
   useEffect(() => {
     let isAuth;
-    console.log(localStorage.getItem('token'))
     if (localStorage.getItem('token')) {
         isAuth = store.checkAuth();
-        isAuth?.then(() => {
-          // navigate('/user')
-        })
-        .catch(()=>{
-          navigate('/login')
+        isAuth.then((res) => {
+          if(!res) navigate('/login'); 
         })
     }
     else {

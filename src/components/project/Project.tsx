@@ -46,7 +46,7 @@ const Project:FC = () => {
       navigate("member/"+member._id)
     }
     else {
-      alert("You are not allowed to view this member");
+      console.log("You are not allowed to view this member");
     }
   }
 
@@ -55,10 +55,10 @@ const Project:FC = () => {
     if(id){
     let isDelete = ProjectService.delete(id)
     isDelete.then((e:any) => {
-      alert(e)
+      console.log(e)
       navigate('/user');
     }).catch((e:any) => {
-      alert(e)
+      console.log(e)
     })
   }
   }

@@ -22,7 +22,6 @@ export class RootStore {
         this.isLoading = bool;
     }
     setAuth(bool: boolean) {
-        console.log(bool)
         this.isAuth = bool;
     }
 
@@ -87,7 +86,6 @@ export class RootStore {
         try {
             const response = await $api.get<AuthResponse>(`/refresh`, {withCredentials: true})
             this.setCookie('refreshToken', response.data.token.refreshToken,10);
-            console.log(response.data)
             localStorage.setItem('token', response.data.token.refreshToken);
             this.setAuth(true);
             this.setUser(response.data.user);

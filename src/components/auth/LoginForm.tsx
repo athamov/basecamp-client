@@ -21,10 +21,10 @@ const LoginForm: FC = () => {
       event.preventDefault();
       let isLogin = store.login(email, password);
       isLogin.then((e:any) => {
-        alert(e)
+        console.log(e)
         if(e==='logged in successfully') navigate('/user');
       }).catch((e:any) => {
-        alert(e)
+        console.log(e)
         setError(e);
       })
     }

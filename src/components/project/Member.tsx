@@ -75,10 +75,10 @@ const Member:FC = () => {
     let memberRole = admin?role.admin:role.user;
     let created = MemberService.updateMember(id,member_id,memberRole,request)
     created.then((e:any) => {
-      alert(e)
+      console.log(e)
       navigate(`/user/${id}`);
     }).catch((e:any) => {
-      alert(e)
+      console.log(e)
       setError(e);
     })
   } 
@@ -90,10 +90,10 @@ const Member:FC = () => {
     if(id && member_id) {
       let deleted = MemberService.deleteMember(id,member_id)
       deleted.then((e:any) => {
-        alert(e)
+        console.log(e)
         navigate(`/user/${id}`);
       }).catch((e:any) => {
-        alert(e)
+        console.log(e)
         setError(e);
       })
     }

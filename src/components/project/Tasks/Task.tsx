@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite";
 import {ITask} from "../../../model/ITask"
 // import { StoreContext } from '../../../context/store-context';
 import Subtasks from './Subtask/Subtasks'
-import TaskService from '../../../service/SubtaskService';
+import TaskService from '../../../service/TaskService';
 
 export const defaultTask:ITask = {
   task_name:'',
@@ -42,7 +42,7 @@ const Task: FC<{Task:ITask}> = ({Task}) => {
 
   const handleDelete = () => {
     if(id) TaskService.delete(id,Task._id).then((data:any) => {
-      alert(data);
+      console.log(data);
       window.location.reload();
     });
   }

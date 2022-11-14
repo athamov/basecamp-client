@@ -21,10 +21,10 @@ const TaskAdd: FC = () => {
     if(id){
     let created = TaskService.create(id,name)
     created.then((e:any) => {
-      alert(e)
+      console.log(e)
       navigate(`/user/${id}`);
     }).catch((e:any) => {
-      alert(e)
+      console.log(e)
       setError(e);
     })
   }

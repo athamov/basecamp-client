@@ -16,10 +16,10 @@ const RegistrationForm: FC = () => {
       event.preventDefault();
       let isRegistered = store.registration(email, password,name);
       isRegistered.then((e:any) => {
-          alert(e)
+          console.log(e)
           if(e==='registered successfully') navigate('/user');
         }).catch((e:any) => {
-          alert(e)
+          console.log(e)
           setError(e);
         })
     }

@@ -13,10 +13,10 @@ const Navbar: FC = () => {
     event.preventDefault();
     let isLogout = store.logout()
     isLogout.then((e:any) => {
-      alert(e.data)
+      console.log(e.data)
       navigate('/login');
     }).catch((e:any) => {
-      alert(e.data)
+      console.log(e.data)
     })
   }
 

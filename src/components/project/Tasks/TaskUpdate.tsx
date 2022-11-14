@@ -12,7 +12,7 @@ const TaskUpdate: FC = () => {
 
   useEffect(() => {
     if(id && task_id) {
-      TaskService.get(id,task_id).then((task:any) =>setName(task.task_name))
+      TaskService.get(id,task_id).then((task:any) =>setName(task.data.task_name))
     }
   },[id,task_id])
 
@@ -26,10 +26,10 @@ const TaskUpdate: FC = () => {
     if(id && task_id) {
     let updated = TaskService.update(id,task_id,name);
     updated.then((e:any) => {
-      alert(e)
-      if(e==='updated succesfully') navigate(`/user/${id}`);
+      console.log(e)
+      if(e.data==='updated succesfully') navigate(`/user/${id}`);
     }).catch((e:any) => {
-      alert(e)
+      console.log(e)
     })
   }
   }

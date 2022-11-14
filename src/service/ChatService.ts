@@ -2,7 +2,7 @@ import $api from '../http/index';
 import { AxiosResponse } from 'axios';
 import { IChat } from '../model/IChat';
 
-export default class ProjectService {
+export default class ChatService {
   static async create(project_id:string, name:string):Promise<AxiosResponse<IChat>> {
     return $api.post<IChat>(`/project/${project_id}/chat`, {name});
   }

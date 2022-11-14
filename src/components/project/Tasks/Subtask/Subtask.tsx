@@ -12,7 +12,7 @@ export const defaultSubtask:ISubtask = {
   _id:''
 }
 
-const Task: FC<{Subtask:ISubtask}> = ({Subtask}) => {
+const Subtask: FC<{Subtask:ISubtask}> = ({Subtask}) => {
   const [ subtask,setSubtask ] = useState<string>(defaultSubtask.subtask_name);
   const [ checked, setChecked] = useState<boolean>(defaultSubtask.is_done)
   // const store = useContext(StoreContext);
@@ -36,7 +36,7 @@ const Task: FC<{Subtask:ISubtask}> = ({Subtask}) => {
 
   const handleDelete = () => {
     if(id) SubtaskService.delete(id,Subtask._id).then((data:any) => {
-      alert(data);
+      console.log(data);
       window.location.reload();
     });
   }
@@ -62,4 +62,4 @@ const Task: FC<{Subtask:ISubtask}> = ({Subtask}) => {
   )
 }
 
-export default observer(Task);
+export default observer(Subtask);

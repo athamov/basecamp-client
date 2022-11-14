@@ -58,10 +58,10 @@ const MemberAdd: FC = () => {
     let memberRole = admin?role.admin:role.user;
     let created = MemberService.createMember(id,email,memberRole,request)
     created.then((e:any) => {
-      alert(e)
+      console.log(e)
       navigate(`/user/${id}`);
     }).catch((e:any) => {
-      alert(e)
+      console.log(e)
       setError(e);
     })
   } 
