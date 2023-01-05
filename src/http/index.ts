@@ -2,7 +2,7 @@ import axios from 'axios';
 // import Cookies from 'universal-cookie
 import {AuthResponse} from "../model/response/AuthResponse";
 
-export const API_URL = `https://basecamp-server.herokuapp.com/api`
+export const API_URL = `https://basecamp-server.herokuapp.com`
 // export const API_URL = 'http://localhost:7000/api';
 
 const $api = axios.create({

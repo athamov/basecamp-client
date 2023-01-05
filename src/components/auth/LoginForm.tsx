@@ -2,7 +2,6 @@ import React, {FC, useContext, useState,useEffect} from 'react';
 import { observer } from "mobx-react-lite";
 import { StoreContext } from '../../context/store-context';
 import {Link,useNavigate} from 'react-router-dom';
-import LoginImage from "./login.png"
 
 const LoginForm: FC = () => {
     const [email, setEmail] = useState<string>('')
@@ -29,16 +28,16 @@ const LoginForm: FC = () => {
       })
     }
     return (
-        <section className="h-screen">
-            <div className="px-6 h-full text-gray-800">
+        <section className="">
+            <div className="px-6 text-gray-800">
                 <div
-                className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
+                className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap g-6"
                 >
                 <div
                     className="grow-0 shrink-1 md:shrink-0 basis-auto xl:w-6/12 lg:w-6/12 md:w-9/12 mb-12 md:mb-0"
                 >
                     <img
-                    src={LoginImage}
+                    src='/login.png'
                     className="w-full"
                     alt="Sample"
                     />
@@ -70,7 +69,7 @@ const LoginForm: FC = () => {
             />
           </div>
           <div className="text-center lg:text-left">
-          <p className="text-sm font-semibold mt-2 pt-1 mb-0">
+          <p className="text-sm font-semibold dark:text-white mt-2 pt-1 mb-0">
               Don't have an account?
               <Link
                 to="/register"
